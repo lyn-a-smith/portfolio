@@ -52,19 +52,37 @@
 
 /* ---------- standard file card ---------- */
 .pjf-card { overflow: hidden; display: flex; flex-direction: column; }
-.pjf-media { position: relative; aspect-ratio: 16 / 10; background: #0f0d0b; border-bottom: 1px solid var(--pjf-line); }
-.pjf-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.pjf-media .stamp {
-  position: absolute; top: 12px; left: 12px;
-  font-family: var(--pjf-mono); font-size: 0.62rem; font-weight: 600; letter-spacing: 0.14em;
-  color: var(--pjf-bright); background: rgba(19, 17, 16, 0.82); border: 1px solid var(--pjf-line-hover);
-  border-radius: 6px; padding: 4px 9px; backdrop-filter: blur(4px);
+
+/* ---------- browser-frame screenshot window ---------- */
+.pjf-browser { display: flex; flex-direction: column; border-bottom: 1px solid var(--pjf-line); }
+.pjf-browser__bar {
+  display: flex; align-items: center; gap: 6px; padding: 10px 14px;
+  background: #0f0d0b; border-bottom: 1px solid var(--pjf-line);
 }
-.pjf-media .stamp b { color: var(--pjf-accent); font-weight: 600; }
-.pjf-nomedia {
-  aspect-ratio: 16 / 10; display: grid; place-items: center; background: #0f0d0b;
-  border-bottom: 1px solid var(--pjf-line);
+.pjf-browser__bar i { flex: 0 0 auto; width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 250, 240, 0.13); }
+.pjf-browser__bar i:first-child { background: rgba(226, 181, 99, 0.55); }
+.pjf-browser__bar .url {
+  margin-left: 8px; font-family: var(--pjf-mono); font-size: 0.64rem; letter-spacing: 0.06em;
+  color: var(--pjf-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.pjf-browser__bar .tag {
+  margin-left: auto; flex: 0 0 auto; font-family: var(--pjf-mono); font-size: 0.62rem;
+  font-weight: 600; letter-spacing: 0.12em; color: var(--pjf-accent);
+}
+.pjf-browser__view { position: relative; height: 250px; overflow: hidden; background: #0f0d0b; }
+.pjf-browser__view img {
+  position: absolute; top: 0; left: 0; width: 100%; height: auto; min-height: 100%;
+  object-fit: cover; object-position: top center; display: block;
+  transition: transform 5s ease-in-out;
+}
+.pjf-browser__view .none {
+  position: absolute; inset: 0; display: grid; place-items: center;
   font-family: var(--pjf-mono); font-size: 0.66rem; letter-spacing: 0.16em; color: var(--pjf-muted);
+}
+/* hover: slow pan down the page, back up on leave */
+@media (hover: hover) {
+  .pjf-card:hover .pjf-browser__view img { transform: translateY(calc(-100% + 250px)); }
+  .pjf-featured:hover .pjf-browser__view img { transform: translateY(calc(-100% + 380px)); }
 }
 .pjf-body { padding: 20px 24px 24px; display: flex; flex-direction: column; flex: 1; }
 .pjf-body h2 {
@@ -91,21 +109,18 @@
 
 /* ---------- featured file ---------- */
 .pjf-featured { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 0.9fr; }
-.pjf-featured .pjf-media, .pjf-featured .pjf-nomedia {
-  order: 2; position: relative; aspect-ratio: auto; min-height: 340px; height: auto;
-  border-bottom: 0; border-left: 1px solid var(--pjf-line);
-}
-.pjf-featured .pjf-media img { position: absolute; inset: 0; }
+.pjf-featured .pjf-browser { order: 2; border-bottom: 0; border-left: 1px solid var(--pjf-line); }
+.pjf-featured .pjf-browser__view { flex: 1; height: auto; min-height: 380px; }
 .pjf-featured .pjf-body { order: 1; padding: 30px 34px; justify-content: center; }
 .pjf-featured .pjf-links { margin-top: 0; }
 .pjf-featured .pjf-body h2 { font-size: clamp(1.7rem, 3vw, 2.3rem); }
 .pjf-featured .pjf-body p.desc { font-size: 0.94rem; max-width: 52ch; }
 @media (max-width: 860px) {
   .pjf-featured { grid-template-columns: 1fr; }
-  .pjf-featured .pjf-media, .pjf-featured .pjf-nomedia {
-    order: 1; aspect-ratio: 16 / 10; min-height: 0;
-    border-left: 0; border-bottom: 1px solid var(--pjf-line);
+  .pjf-featured .pjf-browser {
+    order: 1; border-left: 0; border-bottom: 1px solid var(--pjf-line);
   }
+  .pjf-featured .pjf-browser__view { flex: none; height: 250px; min-height: 0; }
   .pjf-featured .pjf-body { order: 2; padding: 20px 24px 24px; }
 }
 
@@ -118,5 +133,6 @@
 .pjf-empty b { color: var(--pjf-accent); font-weight: 600; }
 
 @media (prefers-reduced-motion: reduce) {
-  .pjf-card-base, .pjf-btn, .pjf-btn .arr { transition: none; }
+  .pjf-card-base, .pjf-btn, .pjf-btn .arr, .pjf-browser__view img { transition: none; }
+  .pjf-card:hover .pjf-browser__view img, .pjf-featured:hover .pjf-browser__view img { transform: none; }
 }

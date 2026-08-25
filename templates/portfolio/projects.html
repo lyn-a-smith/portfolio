@@ -20,14 +20,20 @@
   <div class="pjf-grid">
     {% for project in projects %}
     <article class="pjf-card-base pjf-card {% if forloop.first %}pjf-featured{% endif %}">
-      {% if project.image %}
-      <div class="pjf-media">
-        <img src="{{ project.image.url }}" alt="Screenshot of {{ project.title }}" loading="lazy">
-        <span class="stamp"><b>{{ forloop.counter|stringformat:"02d" }}</b> · {{ project.year }}</span>
+      <div class="pjf-browser">
+        <div class="pjf-browser__bar">
+          <i></i><i></i><i></i>
+          <span class="url">{% if project.repository %}{{ project.repository|cut:"https://github.com/"|cut:"https://"|truncatechars:36 }}{% else %}{{ project.title|lower }}{% endif %}</span>
+          <span class="tag">{{ forloop.counter|stringformat:"02d" }} · {{ project.year }}</span>
+        </div>
+        <div class="pjf-browser__view">
+          {% if project.image %}
+          <img src="{{ project.image.url }}" alt="Screenshot of the {{ project.title }} website" loading="lazy">
+          {% else %}
+          <div class="none">NO VISUAL ON FILE</div>
+          {% endif %}
+        </div>
       </div>
-      {% else %}
-      <div class="pjf-nomedia">NO VISUAL ON FILE · {{ project.year }}</div>
-      {% endif %}
       <div class="pjf-body">
         <h2>{{ project.title }}</h2>
         <p class="desc">{{ project.description }}</p>
