@@ -1,0 +1,400 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About Me{% endblock %}
+
+{% block extra_head %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ABOUT ME — OPTION 2 "GRADIENT"  ·  bold gradient / glass bento
+   ============================================================ */
+:root {
+  --grx-bg: #0c0a1d;
+  --grx-card: rgba(255, 255, 255, 0.045);
+  --grx-line: rgba(255, 255, 255, 0.1);
+  --grx-line-hover: rgba(255, 255, 255, 0.22);
+  --grx-text: #eceaf6;
+  --grx-muted: #a49fc0;
+  --grx-violet: #a78bfa;
+  --grx-pink: #f472b6;
+  --grx-orange: #fb923c;
+  --grx-cyan: #22d3ee;
+  --grx-grad: linear-gradient(92deg, #a78bfa 0%, #f472b6 48%, #fb923c 100%);
+  --grx-head: "Space Grotesk", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --grx-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+body { background-color: var(--grx-bg); font-family: var(--grx-sans); color: var(--grx-text); }
+body::before, body::after {
+  content: ""; position: fixed; z-index: -1; border-radius: 50%;
+  filter: blur(90px); opacity: 0.4; pointer-events: none;
+}
+body::before {
+  width: 520px; height: 520px; top: -160px; left: -140px;
+  background: radial-gradient(circle at 40% 40%, #6d28d9, #2563eb 70%, transparent);
+  animation: grx-drift 22s ease-in-out infinite alternate;
+}
+body::after {
+  width: 560px; height: 560px; bottom: -200px; right: -160px;
+  background: radial-gradient(circle at 60% 60%, #be185d, #ea580c 75%, transparent);
+  animation: grx-drift 26s ease-in-out infinite alternate-reverse;
+}
+
+/* ---------- grid ---------- */
+.grx-bento {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas:
+    "hero hero hero hero hero hero hero hero photo photo photo photo"
+    "story story story story story story story stats stats stats stats stats"
+    "stack stack stack stack super super super super certs certs certs certs"
+    "quote quote quote quote quote quote quote off off off off off"
+    "cta cta cta cta cta cta cta cta cta cta cta cta";
+}
+.grx-hero  { grid-area: hero; }
+.grx-photo { grid-area: photo; }
+.grx-story { grid-area: story; }
+.grx-stats { grid-area: stats; }
+.grx-stack { grid-area: stack; }
+.grx-super { grid-area: super; }
+.grx-certs { grid-area: certs; }
+.grx-quote { grid-area: quote; }
+.grx-off   { grid-area: off; }
+.grx-cta   { grid-area: cta; }
+
+@media (max-width: 1024px) {
+  .grx-bento {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      "hero hero" "photo stats" "story story" "stack super"
+      "certs off" "quote quote" "cta cta";
+  }
+}
+@media (max-width: 660px) {
+  .grx-bento {
+    grid-template-columns: 1fr;
+    grid-template-areas: "hero" "photo" "story" "stats" "stack" "super" "certs" "quote" "off" "cta";
+  }
+}
+
+/* ---------- card chassis ---------- */
+.grx-card {
+  position: relative;
+  background: var(--grx-card);
+  border: 1px solid var(--grx-line);
+  border-radius: 22px;
+  padding: 26px 28px;
+  -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.grx-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--grx-line-hover);
+  box-shadow: 0 18px 44px -18px rgba(124, 58, 237, 0.35);
+}
+.grx-label {
+  display: inline-flex; align-items: center; gap: 8px; margin: 0 0 14px;
+  font-family: var(--grx-head); font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--grx-muted);
+}
+.grx-label::before { content: ""; width: 18px; height: 3px; border-radius: 2px; background: var(--grx-grad); }
+
+/* ---------- hero ---------- */
+.grx-hero {
+  display: flex; flex-direction: column; align-items: flex-start;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--grx-bg), var(--grx-bg)) padding-box,
+    linear-gradient(120deg, rgba(167, 139, 250, 0.65), rgba(244, 114, 182, 0.55), rgba(251, 146, 60, 0.65)) border-box;
+}
+.grx-hero:hover { border-color: transparent; }
+.grx-eyebrow {
+  display: inline-block; font-family: var(--grx-head); font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--grx-muted);
+  border: 1px solid var(--grx-line); border-radius: 999px; padding: 6px 14px; margin: 0 0 18px;
+}
+.grx-hero h1 {
+  margin: 0 0 14px; font-family: var(--grx-head); font-weight: 700;
+  font-size: clamp(2.1rem, 4.6vw, 3.4rem); line-height: 1.08; letter-spacing: -0.015em; color: #f6f4ff;
+}
+.grx-hero h1 .grad {
+  background: var(--grx-grad);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.grx-hero .lede { margin: 0 0 20px; max-width: 58ch; font-size: 1rem; line-height: 1.7; color: var(--grx-muted); }
+.grx-hero .lede b { color: var(--grx-text); font-weight: 600; }
+.grx-chiprow { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.grx-chip {
+  font-size: 0.74rem; font-weight: 500; color: var(--grx-text);
+  background: rgba(255, 255, 255, 0.06); border: 1px solid var(--grx-line);
+  border-radius: 999px; padding: 6px 12px;
+}
+.grx-btnrow { display: flex; flex-wrap: wrap; gap: 12px; }
+.grx-hero .grx-btnrow { margin-top: auto; }
+.grx-btn {
+  font-family: var(--grx-head); font-weight: 600; font-size: 0.88rem;
+  padding: 12px 22px; border-radius: 999px; transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.grx-btn.fill { background: var(--grx-grad); color: #17092b; box-shadow: 0 10px 30px -10px rgba(244, 114, 182, 0.55); }
+.grx-btn.fill:hover { transform: translateY(-2px); box-shadow: 0 14px 34px -10px rgba(244, 114, 182, 0.7); }
+.grx-btn.ghost { border: 1px solid var(--grx-line-hover); color: var(--grx-text); }
+.grx-btn.ghost:hover { background: rgba(255, 255, 255, 0.07); }
+
+/* ---------- photo ---------- */
+.grx-photo { display: flex; flex-direction: column; align-items: center; text-align: center; justify-content: center; }
+.grx-ring {
+  width: min(175px, 56vw); aspect-ratio: 1; border-radius: 50%; padding: 5px; margin-bottom: 16px;
+  background: conic-gradient(from 140deg, #a78bfa, #f472b6, #fb923c, #22d3ee, #a78bfa);
+}
+.grx-ring img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; }
+.grx-photo .nm { font-family: var(--grx-head); font-weight: 700; font-size: 1.35rem; margin: 0 0 4px; color: #f6f4ff; }
+.grx-photo .hd { font-size: 0.8rem; line-height: 1.55; color: var(--grx-muted); margin: 0 0 12px; }
+.grx-loc {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 0.74rem; color: var(--grx-text);
+  background: rgba(255, 255, 255, 0.06); border: 1px solid var(--grx-line); border-radius: 999px; padding: 6px 12px;
+}
+.grx-loc::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--grx-cyan); }
+
+/* ---------- story ---------- */
+.grx-story { padding-left: 30px; }
+.grx-story::before {
+  content: ""; position: absolute; left: 0; top: 24px; bottom: 24px; width: 4px;
+  border-radius: 4px; background: var(--grx-grad);
+}
+.grx-story p { margin: 0 0 12px; font-size: 0.96rem; line-height: 1.72; color: var(--grx-text); }
+.grx-story p:last-child { margin-bottom: 0; }
+.grx-story .dim { color: var(--grx-muted); }
+.grx-story b { font-weight: 600; }
+
+/* ---------- stats ---------- */
+.grx-statgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.grx-statcell {
+  background: rgba(255, 255, 255, 0.04); border: 1px solid var(--grx-line);
+  border-radius: 16px; padding: 14px 16px;
+}
+.grx-statcell b {
+  display: block; font-family: var(--grx-head); font-size: 1.75rem; font-weight: 700; line-height: 1.1;
+  background: var(--grx-grad); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.grx-statcell span { font-size: 0.74rem; color: var(--grx-muted); line-height: 1.4; display: block; margin-top: 4px; }
+.grx-ts {
+  margin-top: 10px; text-align: center; font-family: var(--grx-head); font-size: 0.76rem; font-weight: 600;
+  letter-spacing: 0.14em; color: var(--grx-cyan); border: 1px dashed rgba(34, 211, 238, 0.45);
+  border-radius: 12px; padding: 9px;
+}
+
+/* ---------- stack chips ---------- */
+.grx-tech { display: flex; flex-wrap: wrap; gap: 9px; }
+.grx-tech span {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.82rem; font-weight: 500; color: var(--grx-text);
+  background: rgba(255, 255, 255, 0.05); border: 1px solid var(--grx-line);
+  border-radius: 12px; padding: 9px 13px; transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.grx-tech span:hover { border-color: var(--grx-line-hover); transform: translateY(-2px); }
+.grx-tech i { width: 8px; height: 8px; border-radius: 50%; }
+.grx-note { margin: 14px 0 0; font-size: 0.78rem; color: var(--grx-muted); line-height: 1.5; }
+
+/* ---------- super / certs / off lists ---------- */
+.grx-rows { display: flex; flex-direction: column; }
+.grx-row { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+.grx-row:last-child { border-bottom: 0; padding-bottom: 0; }
+.grx-row:first-of-type { padding-top: 0; }
+.grx-ic {
+  flex: 0 0 auto; width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center;
+  background: rgba(255, 255, 255, 0.06); border: 1px solid var(--grx-line);
+}
+.grx-ic svg { width: 16px; height: 16px; }
+.grx-row .t { font-size: 0.88rem; font-weight: 600; color: var(--grx-text); line-height: 1.35; }
+.grx-row .s { font-size: 0.76rem; color: var(--grx-muted); line-height: 1.45; margin-top: 2px; }
+.grx-yr {
+  margin-left: auto; flex: 0 0 auto; font-family: var(--grx-head); font-size: 0.68rem; font-weight: 600;
+  color: var(--grx-violet); border: 1px solid rgba(167, 139, 250, 0.4); border-radius: 999px; padding: 3px 9px;
+}
+
+/* ---------- quote ---------- */
+.grx-quote { display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+.grx-quote::before {
+  content: "\201C"; position: absolute; top: -30px; right: 6px; font-family: Georgia, serif;
+  font-size: 11rem; line-height: 1; opacity: 0.16;
+  background: var(--grx-grad); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.grx-quote blockquote {
+  margin: 0 0 12px; font-family: var(--grx-head); font-weight: 600;
+  font-size: clamp(1.15rem, 2vw, 1.5rem); line-height: 1.5; color: #f6f4ff; max-width: 30ch;
+}
+.grx-quote blockquote .grad {
+  background: var(--grx-grad); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.grx-quote figcaption { font-size: 0.78rem; color: var(--grx-muted); }
+
+/* ---------- cta ---------- */
+.grx-cta {
+  text-align: center; padding: 40px 28px;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(rgba(20, 15, 40, 0.92), rgba(20, 15, 40, 0.92)) padding-box,
+    var(--grx-grad) border-box;
+}
+.grx-cta::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(500px 160px at 50% 0%, rgba(244, 114, 182, 0.14), transparent 70%);
+}
+.grx-cta h2 {
+  position: relative; margin: 0 0 8px; font-family: var(--grx-head); font-weight: 700;
+  font-size: clamp(1.5rem, 3vw, 2.1rem); color: #f6f4ff;
+}
+.grx-cta h2 .grad {
+  background: var(--grx-grad); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.grx-cta p { position: relative; margin: 0 auto 22px; max-width: 52ch; font-size: 0.92rem; line-height: 1.65; color: var(--grx-muted); }
+.grx-cta .grx-btnrow { position: relative; justify-content: center; }
+
+@keyframes grx-drift {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(60px, 40px) scale(1.12); }
+}
+@media (prefers-reduced-motion: reduce) {
+  body::before, body::after { animation: none; }
+  .grx-card, .grx-btn, .grx-tech span { transition: none; }
+}
+
+</style>
+{% endblock extra_head %}
+
+{% block content %}
+<section class="grx-bento" aria-label="About Lyn Smith">
+
+  <article class="grx-card grx-hero">
+    <span class="grx-eyebrow">Lyn Smith · About Me</span>
+    <h1>From <span class="grad">radio waves</span> to&nbsp;<span class="grad">the&nbsp;web</span>.</h1>
+    <p class="lede">I spent <b>16 years in the Marine Corps</b> hunting signals in noise — leading SIGINT, electromagnetic warfare and cyber teams, and turning chaotic data into decisions. Now I'm channeling all of it into <b>full-stack development</b>, one Django app at a time.</p>
+    <div class="grx-chiprow" aria-label="Quick facts">
+      <span class="grx-chip">Yuma, AZ</span>
+      <span class="grx-chip">U.S. Marine Corps · Active</span>
+      <span class="grx-chip">SDGKU · Full-Stack Immersive</span>
+      <span class="grx-chip">Data Analytics · Google Certified</span>
+    </div>
+    <div class="grx-btnrow">
+      <a class="grx-btn fill" href="/projects/">See my projects</a>
+      <a class="grx-btn ghost" href="/contact/">Get in touch</a>
+    </div>
+  </article>
+
+  <article class="grx-card grx-photo">
+    <div class="grx-ring">
+      <img src="{% static 'img/headshot.png' %}" alt="Portrait of Lyn Smith" width="410" height="410">
+    </div>
+    <p class="nm">Lyn Smith</p>
+    <p class="hd">SIGINT / EW / Cyber Officer @ MAWTS-1<br>Full-Stack Developer in Training</p>
+    <span class="grx-loc">Open to new opportunities</span>
+  </article>
+
+  <article class="grx-card grx-story">
+    <h2 class="grx-label">The plot twist</h2>
+    <p>My favorite moments in uniform were never the briefings — they were the builds. The Python script that gave analysts their day back. The scripting environment that made a training exercise feel like the real thing. The dashboard that replaced a 12-hour slide-formatting ritual.</p>
+    <p><span class="dim">Sixteen years in, I realized the pattern:</span> I don't just want to analyze the system. <b>I want to build it.</b></p>
+    <p>So while serving as a warrant officer at the Marine Corps' premier aviation training squadron, I enrolled in San Diego Global Knowledge University's Full-Stack Development Immersive. Different terrain, same mission: take something complex, make it useful, ship it.</p>
+  </article>
+
+  <article class="grx-card grx-stats">
+    <h2 class="grx-label">Track record</h2>
+    <div class="grx-statgrid">
+      <div class="grx-statcell"><b>16+</b><span>years leading technical teams</span></div>
+      <div class="grx-statcell"><b>215+</b><span>intelligence reports delivered</span></div>
+      <div class="grx-statcell"><b>500+</b><span>hours teaching technical skills</span></div>
+      <div class="grx-statcell"><b>135+</b><span>Marines trained &amp; certified</span></div>
+    </div>
+    <div class="grx-ts">ACTIVE TS//SCI CLEARANCE</div>
+  </article>
+
+  <article class="grx-card grx-stack">
+    <h2 class="grx-label">Currently compiling</h2>
+    <div class="grx-tech">
+      <span><i style="background:#facc15"></i>Python</span>
+      <span><i style="background:#34d399"></i>Django</span>
+      <span><i style="background:#fb923c"></i>HTML / CSS</span>
+      <span><i style="background:#f472b6"></i>JavaScript</span>
+      <span><i style="background:#22d3ee"></i>SQL</span>
+      <span><i style="background:#a78bfa"></i>Bootstrap</span>
+      <span><i style="background:#f87171"></i>Git</span>
+    </div>
+    <p class="grx-note">Full-Stack Development Immersive, Cohort 67 — this portfolio is one of the projects.</p>
+  </article>
+
+  <article class="grx-card grx-super">
+    <h2 class="grx-label">Superpowers, carried over</h2>
+    <div class="grx-rows">
+      <div class="grx-row">
+        <span class="grx-ic"><svg viewBox="0 0 16 16" fill="#a78bfa" aria-hidden="true"><path d="M1 11h3v4H1v-4zm5.5-5h3v9h-3V6zM12 2h3v13h-3V2z"/></svg></span>
+        <div><div class="t">Making data talk</div><div class="s">analysis, dashboards &amp; BI — certified by Google, proven in the field</div></div>
+      </div>
+      <div class="grx-row">
+        <span class="grx-ic"><svg viewBox="0 0 16 16" fill="#f472b6" aria-hidden="true"><path d="M9.5 1 3 9h4l-.5 6L13 7H9l.5-6z"/></svg></span>
+        <div><div class="t">Automating the boring parts</div><div class="s">Python workflows that analysts across the enterprise adopted</div></div>
+      </div>
+      <div class="grx-row">
+        <span class="grx-ic"><svg viewBox="0 0 16 16" fill="#22d3ee" aria-hidden="true"><path d="M2 2h12v9H8l-4 4v-4H2V2z"/></svg></span>
+        <div><div class="t">Translating geek to human</div><div class="s">briefing complex tech to everyone from new Marines to generals</div></div>
+      </div>
+      <div class="grx-row">
+        <span class="grx-ic"><svg viewBox="0 0 16 16" fill="#fb923c" aria-hidden="true"><circle cx="5" cy="5" r="2.5"/><circle cx="11" cy="5" r="2.5"/><path d="M1 14c0-2.5 2-4 4-4s4 1.5 4 4H1zm8 0c0-2.5 2-4 4-4 1 0 2 .4 2.7 1.1L15 14H9z"/></svg></span>
+        <div><div class="t">Building teams that ship</div><div class="s">led analysts &amp; developers through high-stakes, no-fail missions</div></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="grx-card grx-certs">
+    <h2 class="grx-label">Receipts</h2>
+    <div class="grx-rows">
+      <div class="grx-row"><div><div class="t">Google Data Analytics</div><div class="s">Specialization Certificate</div></div><span class="grx-yr">2026</span></div>
+      <div class="grx-row"><div><div class="t">Lean Six Sigma Black Belt</div><div class="s">process improvement</div></div><span class="grx-yr">CERT</span></div>
+      <div class="grx-row"><div><div class="t">Technical Project Management</div><div class="s">planning &amp; delivery</div></div><span class="grx-yr">CERT</span></div>
+      <div class="grx-row"><div><div class="t">AI Foundations</div><div class="s">Department of Defense</div></div><span class="grx-yr">CERT</span></div>
+    </div>
+  </article>
+
+  <article class="grx-card grx-quote">
+    <figure style="margin:0">
+      <blockquote>"Data is a <span class="grad">signal</span>; PowerPoint is merely the noise we wrap it in."</blockquote>
+      <figcaption>— me, on LinkedIn, mid-rant about slide decks (51,000+ impressions of shared grief)</figcaption>
+    </figure>
+  </article>
+
+  <article class="grx-card grx-off">
+    <h2 class="grx-label">Off duty</h2>
+    <div class="grx-rows">
+      <div class="grx-row">
+        <span class="grx-ic"><svg viewBox="0 0 16 16" fill="#f6f4ff" aria-hidden="true"><path d="M8 1l2 3.5L14 5l-3 3 .8 4L8 10.2 4.2 12 5 8 2 5l4-.5L8 1z"/></svg></span>
+        <div><div class="t">Martial arts instructor</div><div class="s">1st-degree black belt — still on the mats, still teaching</div></div>
+      </div>
+      <div class="grx-row">
+        <span class="grx-ic"><svg viewBox="0 0 16 16" fill="#a78bfa" aria-hidden="true"><path d="M8 2a3 3 0 110 6 3 3 0 010-6zm-6 12c0-3 2.7-5 6-5s6 2 6 5H2z"/></svg></span>
+        <div><div class="t">Mentor</div><div class="s">helping Marines and fellow career-changers find their next chapter</div></div>
+      </div>
+      <div class="grx-row">
+        <span class="grx-ic"><svg viewBox="0 0 16 16" fill="#22d3ee" aria-hidden="true"><path d="M3 2h10a1 1 0 011 1v7a1 1 0 01-1 1H8l-4 3v-3H3a1 1 0 01-1-1V3a1 1 0 011-1zm2 3h6v1H5V5zm0 2.5h4v1H5v-1z"/></svg></span>
+        <div><div class="t">Writing satire about data culture</div><div class="s">deadpan LinkedIn essays on signal, noise &amp; slide-deck suffering</div></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="grx-card grx-cta">
+    <h2>Let's build <span class="grad">something</span>.</h2>
+    <p>I'm looking toward my next chapter in software and data — and I'm always up for talking shop, swapping war stories, or pairing on a project.</p>
+    <div class="grx-btnrow">
+      <a class="grx-btn fill" href="mailto:lynsmith5770@gmail.com">Email me</a>
+      <a class="grx-btn ghost" href="https://www.linkedin.com/in/lyn-smith-b5911417a/" target="_blank" rel="noopener">Connect on LinkedIn</a>
+    </div>
+  </article>
+
+</section>
+{% endblock content %}

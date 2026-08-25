@@ -1,0 +1,369 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About Me{% endblock %}
+
+{% block extra_head %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ABOUT ME — OPTION 6 "DOSSIER"  ·  clean dark bento, warm amber
+   Favorite components remix · editorial serif · file-tab labels
+   ============================================================ */
+:root {
+  --dos-bg: #131110;
+  --dos-card: #191613;
+  --dos-card-2: #1d1915;
+  --dos-line: rgba(255, 250, 240, 0.08);
+  --dos-line-hover: rgba(226, 181, 99, 0.32);
+  --dos-accent: #e2b563;
+  --dos-accent-soft: rgba(226, 181, 99, 0.12);
+  --dos-text: #d3cdc2;
+  --dos-bright: #f5f1e8;
+  --dos-muted: #99917f;
+  --dos-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --dos-serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --dos-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+body { background-color: var(--dos-bg); font-family: var(--dos-sans); color: var(--dos-text); }
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(900px 420px at 50% -12%, rgba(226, 181, 99, 0.05), transparent 65%);
+}
+
+/* ---------- grid ---------- */
+.dos-bento {
+  display: grid; gap: 14px;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas:
+    "hero hero hero hero hero hero hero hero hero hero hero hero"
+    "term term term term term work work work work work work work"
+    "super super super super super super super receipts receipts receipts receipts receipts"
+    "stats stats stats stats stats stats stats stats stats stats stats stats"
+    "post post post post post quote quote quote quote quote quote quote"
+    "cta cta cta cta cta cta cta cta cta cta cta cta";
+}
+.dos-hero     { grid-area: hero; }
+.dos-term     { grid-area: term; }
+.dos-work     { grid-area: work; }
+.dos-super    { grid-area: super; }
+.dos-receipts { grid-area: receipts; }
+.dos-stats    { grid-area: stats; }
+.dos-post     { grid-area: post; }
+.dos-quote    { grid-area: quote; }
+.dos-cta      { grid-area: cta; }
+
+@media (max-width: 1024px) {
+  .dos-bento {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      "hero hero" "term post" "work work" "super receipts"
+      "stats stats" "quote quote" "cta cta";
+  }
+}
+@media (max-width: 660px) {
+  .dos-bento {
+    grid-template-columns: 1fr;
+    grid-template-areas: "hero" "term" "work" "post" "super" "receipts" "stats" "quote" "cta";
+  }
+}
+
+/* ---------- card chassis ---------- */
+.dos-card {
+  position: relative;
+  background: var(--dos-card);
+  border: 1px solid var(--dos-line);
+  border-radius: 14px;
+  padding: 24px 26px;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+.dos-card:hover { border-color: var(--dos-line-hover); background: var(--dos-card-2); }
+.dos-label {
+  display: flex; align-items: baseline; gap: 10px; margin: 0 0 16px;
+  font-family: var(--dos-mono); font-size: 0.64rem; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--dos-accent);
+}
+.dos-label .no { color: var(--dos-muted); }
+.dos-label::after { content: ""; flex: 1; height: 1px; background: var(--dos-line); align-self: center; }
+
+/* ---------- hero: editorial mission brief ---------- */
+.dos-hero { padding: 32px 36px 30px; }
+.dos-hero h1 {
+  margin: 0 0 20px; font-family: var(--dos-serif); font-weight: 500;
+  font-size: clamp(2.1rem, 4.6vw, 3.4rem); letter-spacing: 0.005em; line-height: 1.12; color: var(--dos-bright);
+  max-width: 22ch;
+}
+.dos-hero h1 em { font-style: italic; color: var(--dos-accent); }
+.dos-cols { column-count: 2; column-gap: 40px; }
+@media (max-width: 860px) { .dos-cols { column-count: 1; } }
+.dos-cols p { margin: 0 0 12px; font-size: 0.93rem; line-height: 1.75; }
+.dos-cols p b { color: var(--dos-bright); font-weight: 600; }
+.dos-cols p .hl { color: var(--dos-accent); font-weight: 500; }
+.dos-cols p:first-child::first-letter {
+  font-family: var(--dos-serif); float: left; font-size: 3.3em; line-height: 0.82;
+  padding: 4px 10px 0 0; color: var(--dos-accent);
+}
+.dos-sig {
+  display: flex; align-items: center; gap: 13px; margin-top: 22px; padding-top: 18px;
+  border-top: 1px solid var(--dos-line);
+}
+.dos-sig img {
+  width: 52px; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%;
+  outline: 1px solid var(--dos-line-hover); outline-offset: 3px;
+}
+.dos-sig .nm { font-family: var(--dos-serif); font-style: italic; font-size: 1.05rem; color: var(--dos-bright); }
+.dos-sig .lo { font-size: 0.74rem; color: var(--dos-muted); margin-top: 1px; }
+
+/* ---------- terminal ---------- */
+.dos-term { display: flex; flex-direction: column; padding: 0; overflow: hidden; background: #0f0d0a; }
+.dos-term__bar {
+  display: flex; align-items: center; gap: 6px; padding: 10px 14px;
+  background: rgba(226, 181, 99, 0.05); border-bottom: 1px solid var(--dos-line);
+}
+.dos-term__bar i { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 250, 240, 0.13); }
+.dos-term__bar i:first-child { background: rgba(226, 181, 99, 0.55); }
+.dos-term__bar span { margin-left: 8px; font-family: var(--dos-mono); font-size: 0.64rem; color: var(--dos-muted); letter-spacing: 0.08em; }
+.dos-term__body { flex: 1; padding: 16px 18px; font-family: var(--dos-mono); font-size: 0.78rem; line-height: 1.95; }
+.dos-term__body .ln { display: block; }
+.dos-term__body .p { color: var(--dos-accent); }
+.dos-term__body .cmd { color: var(--dos-bright); }
+.dos-term__body .out { color: var(--dos-muted); }
+.dos-term__body .out b { color: var(--dos-text); font-weight: 600; }
+.dos-term__body .blink { color: var(--dos-accent); animation: dos-blink 1.1s steps(1) infinite; }
+
+/* ---------- what I work with ---------- */
+.dos-workcols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+@media (max-width: 660px) { .dos-workcols { grid-template-columns: 1fr; gap: 18px; } }
+.dos-workcols h3 {
+  margin: 0 0 10px; font-family: var(--dos-serif); font-style: italic; font-weight: 500;
+  font-size: 1rem; color: var(--dos-accent); letter-spacing: 0.01em;
+}
+.dos-workcols ul { list-style: none; margin: 0; padding: 0; }
+.dos-workcols li { font-size: 0.85rem; padding: 5px 0 5px 16px; position: relative; line-height: 1.5; }
+.dos-workcols li::before { content: "—"; position: absolute; left: 0; color: var(--dos-muted); }
+
+/* ---------- superpowers / receipts ---------- */
+.dos-rows { display: flex; flex-direction: column; }
+.dos-row { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--dos-line); }
+.dos-row:last-child { border-bottom: 0; padding-bottom: 0; }
+.dos-row:first-of-type { padding-top: 0; }
+.dos-ic {
+  flex: 0 0 auto; width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center;
+  background: var(--dos-accent-soft); border: 1px solid rgba(226, 181, 99, 0.22);
+}
+.dos-ic svg { width: 16px; height: 16px; }
+.dos-row .t { font-size: 0.88rem; font-weight: 600; color: var(--dos-bright); line-height: 1.35; }
+.dos-row .s { font-size: 0.76rem; color: var(--dos-muted); line-height: 1.5; margin-top: 2px; }
+.dos-badge {
+  margin-left: auto; flex: 0 0 auto; font-family: var(--dos-mono); font-size: 0.6rem; font-weight: 600;
+  letter-spacing: 0.08em; color: var(--dos-accent);
+  border: 1px solid rgba(226, 181, 99, 0.32); border-radius: 999px; padding: 3px 9px;
+}
+
+/* ---------- stats: serif numbers ---------- */
+.dos-stats { padding: 22px 30px; }
+.dos-statrow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 28px; }
+.dos-statrow .cell { display: flex; align-items: baseline; gap: 11px; }
+.dos-statrow b {
+  font-family: var(--dos-serif); font-size: 2rem; font-weight: 500; letter-spacing: -0.01em; color: var(--dos-bright);
+}
+.dos-statrow b.ac { color: var(--dos-accent); }
+.dos-statrow span { font-size: 0.75rem; color: var(--dos-muted); line-height: 1.35; max-width: 12ch; }
+@media (max-width: 660px) { .dos-statrow { display: grid; grid-template-columns: 1fr 1fr; } }
+
+/* ---------- current post ---------- */
+.dos-live {
+  display: inline-flex; align-items: center; gap: 7px; margin-bottom: 12px;
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; color: var(--dos-accent);
+}
+.dos-live i { width: 7px; height: 7px; border-radius: 50%; background: var(--dos-accent); animation: dos-pulse 2.2s infinite; }
+.dos-post .role-name { font-size: 0.97rem; font-weight: 650; color: var(--dos-bright); margin: 0 0 3px; }
+.dos-post .unit { font-size: 0.77rem; color: var(--dos-muted); margin: 0 0 12px; line-height: 1.5; }
+.dos-post p.d { font-size: 0.84rem; line-height: 1.65; margin: 0; }
+.dos-post .prev {
+  margin: 13px 0 0; padding-top: 12px; border-top: 1px solid var(--dos-line);
+  font-size: 0.71rem; color: var(--dos-muted); line-height: 1.6;
+}
+.dos-post .prev b { color: var(--dos-text); font-weight: 600; letter-spacing: 0.08em; }
+
+/* ---------- quote ---------- */
+.dos-quote { display: flex; align-items: center; padding: 30px 34px; }
+.dos-quote blockquote {
+  margin: 0; padding-left: 24px; border-left: 2px solid var(--dos-accent);
+  font-family: var(--dos-serif); font-style: italic; font-weight: 500;
+  font-size: clamp(1.2rem, 2.1vw, 1.55rem); line-height: 1.55; color: var(--dos-bright);
+}
+.dos-quote blockquote .hl { color: var(--dos-accent); }
+.dos-quote blockquote footer {
+  margin-top: 10px; font-family: var(--dos-mono); font-style: normal; font-size: 0.66rem;
+  font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dos-muted);
+}
+
+/* ---------- cta ---------- */
+.dos-cta { text-align: center; padding: 38px 28px; }
+.dos-cta h2 {
+  margin: 0 0 8px; font-family: var(--dos-serif); font-weight: 500;
+  font-size: clamp(1.6rem, 3vw, 2.2rem); color: var(--dos-bright);
+}
+.dos-cta h2 em { font-style: italic; color: var(--dos-accent); }
+.dos-cta p { margin: 0 auto 22px; max-width: 54ch; font-size: 0.9rem; line-height: 1.65; color: var(--dos-muted); }
+.dos-btnrow { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.dos-btn {
+  font-size: 0.86rem; font-weight: 600; padding: 11px 20px; border-radius: 10px;
+  border: 1px solid var(--dos-line-hover); color: var(--dos-bright);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.dos-btn:hover { background: rgba(226, 181, 99, 0.08); transform: translateY(-1px); }
+.dos-btn.primary { background: var(--dos-accent); border-color: var(--dos-accent); color: #221a0c; }
+.dos-btn.primary:hover { background: #ecc57e; }
+
+@keyframes dos-blink { 50% { opacity: 0; } }
+@keyframes dos-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+@media (prefers-reduced-motion: reduce) {
+  .dos-term__body .blink, .dos-live i { animation: none; }
+  .dos-card, .dos-btn { transition: none; }
+}
+
+</style>
+{% endblock extra_head %}
+
+{% block content %}
+<section class="dos-bento" aria-label="About Lyn Smith">
+
+  <article class="dos-card dos-hero">
+    <h2 class="dos-label"><span class="no">FILE 01</span> Mission brief</h2>
+    <h1>Sixteen years of signal.<br>Now, <em>software</em>.</h1>
+    <div class="dos-cols">
+      <p>For sixteen years, my job has been <span class="hl">finding the signal in the noise</span> — pulling meaning out of the electromagnetic spectrum, turning massive, messy datasets into intelligence that leaders could actually act on. I've led SIGINT crews, planned electromagnetic warfare operations, built analytic tools with Python, and briefed everyone from junior Marines to generals.</p>
+      <p>Along the way I noticed the work I loved most: <b>building the thing</b>. The script that automated a day of analyst grind. The scripting environment that made training feel real. The workflow that turned a 12-hour slide-polishing ritual into a live dashboard.</p>
+      <p>So I'm re-tasking. I'm now a full-stack development student at San Diego Global Knowledge University, stacking Python, Django, JavaScript and SQL on top of a career spent making complex systems make sense. Same mission, new terrain: <span class="hl">build tools that cut through noise</span>.</p>
+    </div>
+    <div class="dos-sig">
+      <img src="{% static 'img/headshot.png' %}" alt="Portrait of Lyn Smith" width="410" height="410">
+      <div>
+        <div class="nm">Lyn Smith</div>
+        <div class="lo">Chief Warrant Officer, USMC · Yuma, Arizona</div>
+      </div>
+    </div>
+  </article>
+
+  <article class="dos-card dos-term" role="img" aria-label="Terminal introduction: Lyn Smith, Chief Warrant Officer USMC, 16 years in SIGINT, EW and cyberspace operations, now studying full-stack development at SDGKU">
+    <div class="dos-term__bar"><i></i><i></i><i></i><span>lyn@mawts-1: ~/about</span></div>
+    <div class="dos-term__body">
+      <span class="ln"><span class="p">$</span> <span class="cmd">whoami</span></span>
+      <span class="ln out"><b>Lyn Smith</b> — Chief Warrant Officer, USMC</span>
+      <span class="ln"><span class="p">$</span> <span class="cmd">history | grep career</span></span>
+      <span class="ln out">16 years · SIGINT / EW / cyber ops</span>
+      <span class="ln"><span class="p">$</span> <span class="cmd">cat current_mission.txt</span></span>
+      <span class="ln out">Full-Stack Immersive @ SDGKU — <b>Cohort 67</b></span>
+      <span class="ln"><span class="p">$</span> <span class="cmd">./next_chapter.sh</span> <span class="blink">▊</span></span>
+    </div>
+  </article>
+
+  <article class="dos-card dos-work">
+    <h2 class="dos-label"><span class="no">FILE 02</span> What I work with</h2>
+    <div class="dos-workcols">
+      <div>
+        <h3>Building</h3>
+        <ul>
+          <li>Python &amp; Django</li>
+          <li>HTML, CSS &amp; JavaScript</li>
+          <li>SQL &amp; databases</li>
+          <li>Bootstrap · Git · Linux</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Data &amp; analysis</h3>
+        <ul>
+          <li>Data cleaning &amp; normalization</li>
+          <li>BI dashboards &amp; visualization</li>
+          <li>Metadata &amp; pattern analysis</li>
+          <li>Workflow automation</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Leading</h3>
+        <ul>
+          <li>Technical team leadership</li>
+          <li>Stakeholder translation</li>
+          <li>Training &amp; curriculum design</li>
+          <li>Executive-level briefing</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <article class="dos-card dos-super">
+    <h2 class="dos-label"><span class="no">FILE 03</span> Superpowers, carried over</h2>
+    <div class="dos-rows">
+      <div class="dos-row">
+        <span class="dos-ic"><svg viewBox="0 0 16 16" fill="#e2b563" aria-hidden="true"><path d="M1 11h3v4H1v-4zm5.5-5h3v9h-3V6zM12 2h3v13h-3V2z"/></svg></span>
+        <div><div class="t">Making data talk</div><div class="s">analysis, dashboards &amp; BI — certified by Google, proven in the field</div></div>
+      </div>
+      <div class="dos-row">
+        <span class="dos-ic"><svg viewBox="0 0 16 16" fill="#ecc57e" aria-hidden="true"><path d="M9.5 1 3 9h4l-.5 6L13 7H9l.5-6z"/></svg></span>
+        <div><div class="t">Automating the boring parts</div><div class="s">Python workflows that analysts across the enterprise adopted</div></div>
+      </div>
+      <div class="dos-row">
+        <span class="dos-ic"><svg viewBox="0 0 16 16" fill="#f3d49a" aria-hidden="true"><path d="M2 2h12v9H8l-4 4v-4H2V2z"/></svg></span>
+        <div><div class="t">Translating geek to human</div><div class="s">briefing complex tech to everyone from new Marines to generals</div></div>
+      </div>
+      <div class="dos-row">
+        <span class="dos-ic"><svg viewBox="0 0 16 16" fill="#e2b563" aria-hidden="true"><circle cx="5" cy="5" r="2.5"/><circle cx="11" cy="5" r="2.5"/><path d="M1 14c0-2.5 2-4 4-4s4 1.5 4 4H1zm8 0c0-2.5 2-4 4-4 1 0 2 .4 2.7 1.1L15 14H9z"/></svg></span>
+        <div><div class="t">Building teams that ship</div><div class="s">led analysts &amp; developers through high-stakes, no-fail missions</div></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="dos-card dos-receipts">
+    <h2 class="dos-label"><span class="no">FILE 04</span> Receipts</h2>
+    <div class="dos-rows">
+      <div class="dos-row"><div><div class="t">Google Data Analytics</div><div class="s">Specialization Certificate</div></div><span class="dos-badge">2026</span></div>
+      <div class="dos-row"><div><div class="t">Lean Six Sigma Black Belt</div><div class="s">process improvement</div></div><span class="dos-badge">CERT</span></div>
+      <div class="dos-row"><div><div class="t">Technical Project Management</div><div class="s">planning &amp; delivery</div></div><span class="dos-badge">CERT</span></div>
+      <div class="dos-row"><div><div class="t">AI Foundations</div><div class="s">Department of Defense</div></div><span class="dos-badge">CERT</span></div>
+      <div class="dos-row"><div><div class="t">TS//SCI Clearance</div><div class="s">U.S. Government</div></div><span class="dos-badge">ACTIVE</span></div>
+    </div>
+  </article>
+
+  <article class="dos-card dos-stats">
+    <div class="dos-statrow">
+      <div class="cell"><b class="ac">16+</b><span>years in uniform</span></div>
+      <div class="cell"><b>215+</b><span>intel reports authored</span></div>
+      <div class="cell"><b>500+</b><span>teaching hours delivered</span></div>
+      <div class="cell"><b>135+</b><span>Marines trained</span></div>
+      <div class="cell"><b class="ac">5</b><span>personal decorations</span></div>
+    </div>
+  </article>
+
+  <article class="dos-card dos-post">
+    <h2 class="dos-label"><span class="no">FILE 05</span> Current post</h2>
+    <span class="dos-live"><i></i>ON MISSION</span>
+    <p class="role-name">SIGINT / EW / Cyberspace Operations Officer</p>
+    <p class="unit">Marine Aviation Weapons &amp; Tactics Squadron One (MAWTS-1) · Yuma, AZ · Aug 2024 – present</p>
+    <p class="d">I direct a specialized team that replicates adversary electronic-warfare and signals threats — building realistic, contested training environments for Marine aviation.</p>
+    <p class="prev"><b>PREVIOUSLY</b> — III MEF · Marine Corps Cryptologic Support Battalion · 3d Radio Battalion</p>
+  </article>
+
+  <article class="dos-card dos-quote">
+    <blockquote>
+      "The signal is always there. My career has been learning to find it — <span class="hl">in the spectrum, in the data, and now in code</span>."
+      <footer>Lyn Smith · Signal &gt; Noise</footer>
+    </blockquote>
+  </article>
+
+  <article class="dos-card dos-cta">
+    <h2>Let's build <em>something</em>.</h2>
+    <p>I'm looking toward my next chapter in software and data — always up for talking shop, swapping war stories, or pairing on a project.</p>
+    <div class="dos-btnrow">
+      <a class="dos-btn primary" href="mailto:lynsmith5770@gmail.com">Email me</a>
+      <a class="dos-btn" href="https://www.linkedin.com/in/lyn-smith-b5911417a/" target="_blank" rel="noopener">Connect on LinkedIn</a>
+      <a class="dos-btn" href="/contact/">Contact page</a>
+    </div>
+  </article>
+
+</section>
+{% endblock content %}

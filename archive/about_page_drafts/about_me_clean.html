@@ -1,0 +1,378 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About Me{% endblock %}
+
+{% block extra_head %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ABOUT ME — OPTION 3 "CLEAN PRO"  ·  refined bento, matches site
+   ============================================================ */
+:root {
+  --pro-bg: #0f1115;
+  --pro-card: #141821;
+  --pro-card-2: #171c26;
+  --pro-line: rgba(255, 255, 255, 0.07);
+  --pro-line-hover: rgba(255, 255, 255, 0.15);
+  --pro-accent: #5b9dff;
+  --pro-accent-soft: rgba(91, 157, 255, 0.14);
+  --pro-text: #c9cfda;
+  --pro-bright: #f1f3f7;
+  --pro-muted: #8b93a3;
+  --pro-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --pro-serif: "Newsreader", Georgia, "Times New Roman", serif;
+}
+
+body { background-color: var(--pro-bg); font-family: var(--pro-sans); color: var(--pro-text); }
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(900px 420px at 20% -10%, rgba(91, 157, 255, 0.06), transparent 65%);
+}
+
+/* ---------- grid ---------- */
+.pro-bento {
+  display: grid; gap: 14px;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas:
+    "hero hero hero hero hero hero hero hero photo photo photo photo"
+    "journey journey journey journey journey journey journey now now now now now"
+    "journey journey journey journey journey journey journey certs certs certs certs certs"
+    "skills skills skills skills skills skills skills skills beyond beyond beyond beyond"
+    "stats stats stats stats stats stats stats stats stats stats stats stats"
+    "quote quote quote quote quote quote quote quote contact contact contact contact";
+}
+.pro-hero    { grid-area: hero; }
+.pro-photo   { grid-area: photo; }
+.pro-journey { grid-area: journey; }
+.pro-now     { grid-area: now; }
+.pro-certs   { grid-area: certs; }
+.pro-skills  { grid-area: skills; }
+.pro-beyond  { grid-area: beyond; }
+.pro-stats   { grid-area: stats; }
+.pro-quote   { grid-area: quote; }
+.pro-contact { grid-area: contact; }
+
+@media (max-width: 1024px) {
+  .pro-bento {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      "hero hero" "photo now" "journey journey" "skills skills"
+      "certs beyond" "stats stats" "quote quote" "contact contact";
+  }
+}
+@media (max-width: 660px) {
+  .pro-bento {
+    grid-template-columns: 1fr;
+    grid-template-areas: "hero" "photo" "now" "journey" "skills" "certs" "beyond" "stats" "quote" "contact";
+  }
+}
+
+/* ---------- card chassis ---------- */
+.pro-card {
+  position: relative;
+  background: var(--pro-card);
+  border: 1px solid var(--pro-line);
+  border-radius: 14px;
+  padding: 24px 26px;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+.pro-card:hover { border-color: var(--pro-line-hover); background: var(--pro-card-2); }
+.pro-label {
+  margin: 0 0 16px; font-size: 0.67rem; font-weight: 600; letter-spacing: 0.17em;
+  text-transform: uppercase; color: var(--pro-muted);
+  display: flex; align-items: center; gap: 10px;
+}
+.pro-label::after { content: ""; flex: 1; height: 1px; background: var(--pro-line); }
+
+/* ---------- hero ---------- */
+.pro-hero { display: flex; flex-direction: column; justify-content: center; }
+.pro-hero .kicker {
+  display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px;
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.17em; text-transform: uppercase; color: var(--pro-accent);
+}
+.pro-hero .kicker::before { content: ""; width: 22px; height: 1px; background: var(--pro-accent); }
+.pro-hero h1 {
+  margin: 0 0 16px; font-size: clamp(1.9rem, 4vw, 2.9rem); font-weight: 700;
+  letter-spacing: -0.02em; line-height: 1.12; color: var(--pro-bright);
+}
+.pro-hero h1 em { font-family: var(--pro-serif); font-style: italic; font-weight: 500; color: var(--pro-accent); letter-spacing: 0; }
+.pro-hero p { margin: 0 0 12px; max-width: 62ch; font-size: 0.96rem; line-height: 1.75; }
+.pro-hero p b { color: var(--pro-bright); font-weight: 600; }
+.pro-meta { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 18px; }
+.pro-meta span { font-size: 0.78rem; color: var(--pro-muted); display: inline-flex; align-items: center; gap: 7px; }
+.pro-meta span::before { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--pro-accent); }
+
+/* ---------- photo ---------- */
+.pro-photo { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.pro-photo img {
+  width: min(160px, 52vw); height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%;
+  outline: 1px solid var(--pro-line-hover); outline-offset: 6px; margin-bottom: 18px;
+}
+.pro-photo .nm { font-size: 1.22rem; font-weight: 700; color: var(--pro-bright); margin: 0 0 4px; }
+.pro-photo .ttl { font-size: 0.8rem; line-height: 1.55; color: var(--pro-muted); margin: 0; }
+.pro-photo .badge {
+  margin-top: 14px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em;
+  color: var(--pro-accent); background: var(--pro-accent-soft);
+  border: 1px solid rgba(91, 157, 255, 0.3); border-radius: 999px; padding: 6px 13px;
+}
+
+/* ---------- journey timeline ---------- */
+.pro-tl { list-style: none; margin: 0; padding: 0; position: relative; }
+.pro-tl::before { content: ""; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 1px; background: var(--pro-line-hover); }
+.pro-tl li { position: relative; padding: 0 0 18px 26px; }
+.pro-tl li:last-child { padding-bottom: 0; }
+.pro-tl li::before {
+  content: ""; position: absolute; left: 0; top: 6px; width: 11px; height: 11px; border-radius: 50%;
+  background: var(--pro-bg); border: 2px solid var(--pro-muted);
+}
+.pro-tl li.now::before { border-color: var(--pro-accent); background: var(--pro-accent); box-shadow: 0 0 0 4px var(--pro-accent-soft); }
+.pro-tl .yr { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; color: var(--pro-accent); }
+.pro-tl .tt { font-size: 0.9rem; font-weight: 600; color: var(--pro-bright); margin: 2px 0; }
+.pro-tl .ds { font-size: 0.8rem; line-height: 1.55; color: var(--pro-muted); }
+
+/* ---------- now / certs ---------- */
+.pro-now .role { font-size: 0.98rem; font-weight: 650; color: var(--pro-bright); margin: 0 0 3px; }
+.pro-now .unit { font-size: 0.78rem; color: var(--pro-muted); margin: 0 0 12px; line-height: 1.5; }
+.pro-now p.d { font-size: 0.85rem; line-height: 1.65; margin: 0; }
+.pro-now .prev {
+  margin: 14px 0 0; padding-top: 12px; border-top: 1px solid var(--pro-line);
+  font-size: 0.72rem; color: var(--pro-muted); line-height: 1.6;
+}
+.pro-now .prev b { color: var(--pro-text); font-weight: 600; letter-spacing: 0.08em; }
+.pro-live {
+  display: inline-flex; align-items: center; gap: 7px; margin-bottom: 12px;
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; color: #4ade80;
+}
+.pro-live i { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; animation: pro-pulse 2.2s infinite; }
+.pro-certs ul { list-style: none; margin: 0; padding: 0; }
+.pro-certs li {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
+  padding: 8px 0; border-bottom: 1px solid var(--pro-line); font-size: 0.85rem; color: var(--pro-text);
+}
+.pro-certs li:last-child { border-bottom: 0; padding-bottom: 0; }
+.pro-certs li:first-child { padding-top: 0; }
+.pro-certs li span { font-size: 0.7rem; color: var(--pro-muted); white-space: nowrap; }
+
+/* ---------- skills ---------- */
+.pro-skillcols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+@media (max-width: 660px) { .pro-skillcols { grid-template-columns: 1fr; gap: 18px; } }
+.pro-skillcols h3 {
+  margin: 0 0 10px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--pro-accent);
+}
+.pro-skillcols ul { list-style: none; margin: 0; padding: 0; }
+.pro-skillcols li {
+  font-size: 0.85rem; color: var(--pro-text); padding: 5px 0 5px 16px; position: relative; line-height: 1.5;
+}
+.pro-skillcols li::before { content: "—"; position: absolute; left: 0; color: var(--pro-muted); }
+
+/* ---------- beyond ---------- */
+.pro-beyond ul { list-style: none; margin: 0; padding: 0; }
+.pro-beyond li { padding: 8px 0; border-bottom: 1px solid var(--pro-line); }
+.pro-beyond li:last-child { border-bottom: 0; padding-bottom: 0; }
+.pro-beyond li:first-child { padding-top: 0; }
+.pro-beyond .t { font-size: 0.86rem; font-weight: 600; color: var(--pro-bright); }
+.pro-beyond .s { font-size: 0.76rem; color: var(--pro-muted); line-height: 1.5; margin-top: 2px; }
+
+/* ---------- stats strip ---------- */
+.pro-stats { padding: 20px 26px; }
+.pro-statrow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 28px; }
+.pro-statrow .cell { display: flex; align-items: baseline; gap: 10px; }
+.pro-statrow b { font-size: 1.65rem; font-weight: 700; letter-spacing: -0.02em; color: var(--pro-bright); }
+.pro-statrow b.ac { color: var(--pro-accent); }
+.pro-statrow span { font-size: 0.75rem; color: var(--pro-muted); line-height: 1.35; max-width: 12ch; }
+@media (max-width: 660px) {
+  .pro-statrow { display: grid; grid-template-columns: 1fr 1fr; }
+}
+
+/* ---------- quote / contact ---------- */
+.pro-quote { display: flex; align-items: center; }
+.pro-quote blockquote {
+  margin: 0; padding-left: 22px; border-left: 2px solid var(--pro-accent);
+  font-family: var(--pro-serif); font-style: italic; font-weight: 500;
+  font-size: clamp(1.15rem, 2vw, 1.5rem); line-height: 1.55; color: var(--pro-bright);
+}
+.pro-quote blockquote footer {
+  margin-top: 10px; font-family: var(--pro-sans); font-style: normal; font-size: 0.7rem;
+  font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pro-muted);
+}
+.pro-contact p { margin: 0 0 14px; font-size: 0.88rem; line-height: 1.65; }
+.pro-links { display: flex; flex-direction: column; }
+.pro-links a {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  padding: 11px 2px; border-bottom: 1px solid var(--pro-line);
+  color: var(--pro-bright); font-size: 0.88rem; font-weight: 500;
+  transition: color 0.2s ease, padding-left 0.2s ease;
+}
+.pro-links a:last-child { border-bottom: 0; }
+.pro-links a small { color: var(--pro-muted); font-size: 0.74rem; font-weight: 400; }
+.pro-links a .arr { color: var(--pro-accent); transition: transform 0.2s ease; }
+.pro-links a:hover { color: var(--pro-accent); padding-left: 6px; }
+.pro-links a:hover .arr { transform: translateX(4px); }
+
+@keyframes pro-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+@media (prefers-reduced-motion: reduce) {
+  .pro-live i { animation: none; }
+  .pro-card, .pro-links a, .pro-links a .arr { transition: none; }
+}
+
+</style>
+{% endblock extra_head %}
+
+{% block content %}
+<section class="pro-bento" aria-label="About Lyn Smith">
+
+  <article class="pro-card pro-hero">
+    <span class="kicker">About Me</span>
+    <h1>Signals officer,<br>turned <em>software builder</em>.</h1>
+    <p>I'm Lyn Smith — a Marine Corps warrant officer with <b>16 years in signals intelligence, electromagnetic warfare, and cyberspace operations</b>, now studying full-stack development at San Diego Global Knowledge University.</p>
+    <p>My career has been defined by finding the signal in the noise: taking massive, messy datasets and turning them into clear, timely insight for decision-makers. These days I'm applying that same discipline to <b>Python, Django, JavaScript, and SQL</b> — building software instead of just briefing it.</p>
+    <div class="pro-meta">
+      <span>Yuma, Arizona</span>
+      <span>Chief Warrant Officer, USMC</span>
+      <span>SDGKU · Full-Stack Immersive, Cohort 67</span>
+    </div>
+  </article>
+
+  <article class="pro-card pro-photo">
+    <img src="{% static 'img/headshot.png' %}" alt="Portrait of Lyn Smith" width="410" height="410">
+    <p class="nm">Lyn Smith</p>
+    <p class="ttl">SIGINT / EW / Cyber Officer @ MAWTS-1<br>Big Data Analytics · Lean Six Sigma</p>
+    <span class="badge">Open to what's next</span>
+  </article>
+
+  <article class="pro-card pro-journey">
+    <h2 class="pro-label">The journey so far</h2>
+    <ol class="pro-tl">
+      <li>
+        <span class="yr">2010</span>
+        <div class="tt">Enlisted — 3d Radio Battalion</div>
+        <div class="ds">SIGINT &amp; electronic warfare operator; ISR systems, secure networks, RF collection.</div>
+      </li>
+      <li>
+        <span class="yr">2013</span>
+        <div class="tt">Cadre Instructor &amp; NCOIC</div>
+        <div class="ds">Hand-picked to train deploying teams — 500+ hours of instruction, 135+ Marines certified.</div>
+      </li>
+      <li>
+        <span class="yr">2015</span>
+        <div class="tt">Analyst → Discovery Team Lead — Cryptologic Support Bn</div>
+        <div class="ds">215+ intelligence reports; led analysts &amp; developers building Python-enabled analytic workflows adopted across the enterprise.</div>
+      </li>
+      <li>
+        <span class="yr">2018</span>
+        <div class="tt">Cyberspace Operations Chief — III MEF Information Group</div>
+        <div class="ds">Built digital tools and simulation environments; executive reporting for senior leadership.</div>
+      </li>
+      <li>
+        <span class="yr">2019</span>
+        <div class="tt">Information Warfare Chief — III MEF</div>
+        <div class="ds">Principal advisor on IW, spectrum &amp; cyber; wrote the concepts and led the planning teams.</div>
+      </li>
+      <li>
+        <span class="yr">2024</span>
+        <div class="tt">Warrant Officer — MAWTS-1</div>
+        <div class="ds">Leading the adversary-emulation team for the Corps' premier aviation training course.</div>
+      </li>
+      <li class="now">
+        <span class="yr">2026</span>
+        <div class="tt">Full-Stack Development Immersive — SDGKU</div>
+        <div class="ds">The pivot: same signal-hunting discipline, applied to building software. You're looking at coursework right now.</div>
+      </li>
+    </ol>
+  </article>
+
+  <article class="pro-card pro-now">
+    <h2 class="pro-label">Current post</h2>
+    <span class="pro-live"><i></i>ON MISSION</span>
+    <p class="role">SIGINT / EW / Cyberspace Operations Officer</p>
+    <p class="unit">Marine Aviation Weapons &amp; Tactics Squadron One (MAWTS-1) · Yuma, AZ · Aug 2024 – present</p>
+    <p class="d">I direct a specialized team that replicates adversary electronic-warfare and signals threats — building realistic, contested training environments for Marine aviation.</p>
+    <p class="prev"><b>PREVIOUSLY</b> — III Marine Expeditionary Force · Marine Corps Cryptologic Support Battalion · 3d Radio Battalion</p>
+  </article>
+
+  <article class="pro-card pro-certs">
+    <h2 class="pro-label">Certifications</h2>
+    <ul>
+      <li>Google Data Analytics Specialization <span>Google · 2026</span></li>
+      <li>Lean Six Sigma Black Belt <span>Process improvement</span></li>
+      <li>Technical Project Management <span>Planning &amp; delivery</span></li>
+      <li>AI Foundations <span>Dept. of Defense</span></li>
+      <li>Active TS//SCI Clearance <span>U.S. Government</span></li>
+    </ul>
+  </article>
+
+  <article class="pro-card pro-skills">
+    <h2 class="pro-label">What I work with</h2>
+    <div class="pro-skillcols">
+      <div>
+        <h3>Building</h3>
+        <ul>
+          <li>Python &amp; Django</li>
+          <li>HTML, CSS &amp; JavaScript</li>
+          <li>SQL &amp; databases</li>
+          <li>Bootstrap · Git · Linux</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Data &amp; analysis</h3>
+        <ul>
+          <li>Data cleaning &amp; normalization</li>
+          <li>BI dashboards &amp; visualization</li>
+          <li>Metadata &amp; pattern analysis</li>
+          <li>Workflow automation</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Leading</h3>
+        <ul>
+          <li>Technical team leadership</li>
+          <li>Stakeholder translation</li>
+          <li>Training &amp; curriculum design</li>
+          <li>Executive-level briefing</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <article class="pro-card pro-beyond">
+    <h2 class="pro-label">Beyond the work</h2>
+    <ul>
+      <li><div class="t">Martial arts instructor</div><div class="s">1st-degree black belt, still teaching</div></li>
+      <li><div class="t">Mentorship</div><div class="s">Marines, analysts &amp; career-changers</div></li>
+      <li><div class="t">Writing</div><div class="s">satirical essays on data culture — one hit 51k impressions</div></li>
+    </ul>
+  </article>
+
+  <article class="pro-card pro-stats">
+    <div class="pro-statrow">
+      <div class="cell"><b class="ac">16+</b><span>years in uniform</span></div>
+      <div class="cell"><b>215+</b><span>intel reports authored</span></div>
+      <div class="cell"><b>500+</b><span>teaching hours delivered</span></div>
+      <div class="cell"><b>135+</b><span>Marines trained</span></div>
+      <div class="cell"><b class="ac">5</b><span>personal decorations</span></div>
+    </div>
+  </article>
+
+  <article class="pro-card pro-quote">
+    <blockquote>
+      "Sixteen years of finding the signal in the noise — first in the spectrum, now in software."
+      <footer>Lyn Smith</footer>
+    </blockquote>
+  </article>
+
+  <article class="pro-card pro-contact">
+    <h2 class="pro-label">Get in touch</h2>
+    <p>Whether it's a role, a project, or a good conversation about data — my line is open.</p>
+    <div class="pro-links">
+      <a href="mailto:lynsmith5770@gmail.com">Email <span class="arr">→</span></a>
+      <a href="https://www.linkedin.com/in/lyn-smith-b5911417a/" target="_blank" rel="noopener">LinkedIn <span class="arr">→</span></a>
+      <a href="/contact/">Contact page <span class="arr">→</span></a>
+    </div>
+  </article>
+
+</section>
+{% endblock content %}
