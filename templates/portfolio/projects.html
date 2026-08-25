@@ -4,31 +4,47 @@
 {% block title %}Projects{% endblock %}
 
 {% block extra_head %}
-<link href="{% static 'css/about.css' %}" rel="stylesheet">
+<link href="{% static 'css/projects.css' %}" rel="stylesheet">
 {% endblock extra_head %}
 
 {% block content %}
-    
-<section class="dos-bento">
+<section class="pjf-wrap" aria-label="Projects">
 
-<h1>Projects</h1>
+  <div class="pjf-card-base pjf-head">
+    <h2 class="pjf-label"><span class="no">FILE 06</span> Project index</h2>
+    <h1>Field <em>work</em>.</h1>
+    <p>Things I've built, starting in the Full-Stack Development Immersive at SDGKU and growing from there. Each file links to the repository on GitHub.</p>
+    <div class="pjf-count"><b>{{ projects|length|stringformat:"02d" }}</b> FILE{{ projects|length|pluralize:"S" }} ON RECORD</div>
+  </div>
 
-<div>
+  <div class="pjf-grid">
     {% for project in projects %}
-        <div class="dos-card">
-            <a href="{{ project.repository }}" target="_blank">
-            <img src="{{ project.image.url }}" alt=" {{ project.title }}">
-                <p> {{ project.title }}</p>
-                <p> {{ project.year }}</p>
-                <p> {{ project.description }}</p>
-                
-                {% for skill in project.skills.all %}
-                    <p> {{ skill.name }} </p>
-                {% endfor %}
-                
+    <article class="pjf-card-base pjf-card {% if forloop.first %}pjf-featured{% endif %}">
+      {% if project.image %}
+      <div class="pjf-media">
+        <img src="{{ project.image.url }}" alt="Screenshot of {{ project.title }}" loading="lazy">
+        <span class="stamp"><b>{{ forloop.counter|stringformat:"02d" }}</b> · {{ project.year }}</span>
+      </div>
+      {% else %}
+      <div class="pjf-nomedia">NO VISUAL ON FILE · {{ project.year }}</div>
+      {% endif %}
+      <div class="pjf-body">
+        <h2>{{ project.title }}</h2>
+        <p class="desc">{{ project.description }}</p>
+        <div class="pjf-chips">
+          {% for skill in project.skills.all %}<span class="pjf-chip">{{ skill.name }}</span>{% endfor %}
+        </div>
+        <div class="pjf-links">
+          {% if project.repository %}
+          <a class="pjf-btn" href="{{ project.repository }}" target="_blank" rel="noopener">VIEW REPOSITORY <span class="arr">→</span></a>
+          {% endif %}
+        </div>
+      </div>
+    </article>
+    {% empty %}
+    <div class="pjf-empty" style="grid-column: 1 / -1;">NO FILES DECLASSIFIED YET — <b>FIRST PROJECT INBOUND</b></div>
     {% endfor %}
-</div>
+  </div>
 
 </section>
-
 {% endblock content %}

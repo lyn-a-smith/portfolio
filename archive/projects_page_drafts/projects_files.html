@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Projects{% endblock %}
+
+{% block extra_head %}
+<style>
+/* ============================================================
+   PROJECTS — "Case Files"  ·  featured file + grid of file cards
+   Dossier theme: warm charcoal + amber · serif headlines
+   ============================================================ */
+:root {
+  --pjf-card: #191613;
+  --pjf-card-2: #1d1915;
+  --pjf-line: rgba(255, 250, 240, 0.08);
+  --pjf-line-hover: rgba(226, 181, 99, 0.32);
+  --pjf-accent: #e2b563;
+  --pjf-accent-soft: rgba(226, 181, 99, 0.12);
+  --pjf-text: #d3cdc2;
+  --pjf-bright: #f5f1e8;
+  --pjf-muted: #99917f;
+  --pjf-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --pjf-serif: "Newsreader", Georgia, "Times New Roman", serif;
+}
+
+.pjf-wrap { display: flex; flex-direction: column; gap: 14px; }
+.pjf-card-base {
+  background: var(--pjf-card); border: 1px solid var(--pjf-line); border-radius: 14px;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+.pjf-card-base:hover { border-color: var(--pjf-line-hover); background: var(--pjf-card-2); }
+
+.pjf-label {
+  display: flex; align-items: baseline; gap: 10px; margin: 0 0 14px;
+  font-family: var(--pjf-mono); font-size: 0.64rem; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--pjf-accent);
+}
+.pjf-label .no { color: var(--pjf-muted); }
+.pjf-label::after { content: ""; flex: 1; height: 1px; background: var(--pjf-line); align-self: center; }
+
+/* ---------- page header ---------- */
+.pjf-head { padding: 30px 34px; }
+.pjf-head h1 {
+  margin: 0 0 10px; font-family: var(--pjf-serif); font-weight: 500;
+  font-size: clamp(2rem, 4.2vw, 3.1rem); line-height: 1.1; color: var(--pjf-bright);
+}
+.pjf-head h1 em { font-style: italic; color: var(--pjf-accent); }
+.pjf-head p { margin: 0; max-width: 62ch; font-size: 0.94rem; line-height: 1.7; color: var(--pjf-text); }
+.pjf-count {
+  margin-top: 16px; font-family: var(--pjf-mono); font-size: 0.66rem;
+  letter-spacing: 0.16em; color: var(--pjf-muted);
+}
+.pjf-count b { color: var(--pjf-accent); font-weight: 600; }
+
+/* ---------- grid ---------- */
+.pjf-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+@media (max-width: 860px) { .pjf-grid { grid-template-columns: 1fr; } }
+
+/* ---------- standard file card ---------- */
+.pjf-card { overflow: hidden; display: flex; flex-direction: column; }
+.pjf-media { position: relative; aspect-ratio: 16 / 10; background: #0f0d0b; border-bottom: 1px solid var(--pjf-line); }
+.pjf-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pjf-media .stamp {
+  position: absolute; top: 12px; left: 12px;
+  font-family: var(--pjf-mono); font-size: 0.62rem; font-weight: 600; letter-spacing: 0.14em;
+  color: var(--pjf-bright); background: rgba(19, 17, 16, 0.82); border: 1px solid var(--pjf-line-hover);
+  border-radius: 6px; padding: 4px 9px; backdrop-filter: blur(4px);
+}
+.pjf-media .stamp b { color: var(--pjf-accent); font-weight: 600; }
+.pjf-nomedia {
+  aspect-ratio: 16 / 10; display: grid; place-items: center; background: #0f0d0b;
+  border-bottom: 1px solid var(--pjf-line);
+  font-family: var(--pjf-mono); font-size: 0.66rem; letter-spacing: 0.16em; color: var(--pjf-muted);
+}
+.pjf-body { padding: 20px 24px 24px; display: flex; flex-direction: column; flex: 1; }
+.pjf-body h2 {
+  margin: 0 0 8px; font-family: var(--pjf-serif); font-weight: 500;
+  font-size: 1.5rem; line-height: 1.2; color: var(--pjf-bright);
+}
+.pjf-body p.desc { margin: 0 0 16px; font-size: 0.88rem; line-height: 1.65; color: var(--pjf-text); }
+
+.pjf-chips { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 18px; }
+.pjf-chip {
+  font-family: var(--pjf-mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--pjf-muted); border: 1px solid var(--pjf-line); border-radius: 6px; padding: 4px 9px;
+}
+.pjf-links { margin-top: auto; display: flex; gap: 10px; }
+.pjf-btn {
+  display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+  font-family: var(--pjf-mono); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em;
+  color: var(--pjf-accent); border: 1px solid rgba(226, 181, 99, 0.32); border-radius: 8px;
+  padding: 9px 14px; transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.pjf-btn .arr { transition: transform 0.2s ease; }
+.pjf-btn:hover { background: var(--pjf-accent); color: #221a0c; border-color: var(--pjf-accent); }
+.pjf-btn:hover .arr { transform: translateX(3px); }
+
+/* ---------- featured file ---------- */
+.pjf-featured { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 0.9fr; }
+.pjf-featured .pjf-media, .pjf-featured .pjf-nomedia {
+  order: 2; position: relative; aspect-ratio: auto; min-height: 340px; height: auto;
+  border-bottom: 0; border-left: 1px solid var(--pjf-line);
+}
+.pjf-featured .pjf-media img { position: absolute; inset: 0; }
+.pjf-featured .pjf-body { order: 1; padding: 30px 34px; justify-content: center; }
+.pjf-featured .pjf-links { margin-top: 0; }
+.pjf-featured .pjf-body h2 { font-size: clamp(1.7rem, 3vw, 2.3rem); }
+.pjf-featured .pjf-body p.desc { font-size: 0.94rem; max-width: 52ch; }
+@media (max-width: 860px) {
+  .pjf-featured { grid-template-columns: 1fr; }
+  .pjf-featured .pjf-media, .pjf-featured .pjf-nomedia {
+    order: 1; aspect-ratio: 16 / 10; min-height: 0;
+    border-left: 0; border-bottom: 1px solid var(--pjf-line);
+  }
+  .pjf-featured .pjf-body { order: 2; padding: 20px 24px 24px; }
+}
+
+/* ---------- empty state ---------- */
+.pjf-empty {
+  border: 1px dashed var(--pjf-line-hover); border-radius: 14px; padding: 48px 30px;
+  text-align: center; font-family: var(--pjf-mono); font-size: 0.72rem;
+  letter-spacing: 0.16em; color: var(--pjf-muted);
+}
+.pjf-empty b { color: var(--pjf-accent); font-weight: 600; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pjf-card-base, .pjf-btn, .pjf-btn .arr { transition: none; }
+}
+</style>
+{% endblock extra_head %}
+
+{% block content %}
+<section class="pjf-wrap" aria-label="Projects">
+
+  <div class="pjf-card-base pjf-head">
+    <h2 class="pjf-label"><span class="no">FILE 06</span> Project index</h2>
+    <h1>Field <em>work</em>.</h1>
+    <p>Things I've built — starting in the Full-Stack Development Immersive at SDGKU and growing from there. Each file links to the repository on GitHub.</p>
+    <div class="pjf-count"><b>{{ projects|length|stringformat:"02d" }}</b> FILE{{ projects|length|pluralize:"S" }} ON RECORD</div>
+  </div>
+
+  <div class="pjf-grid">
+    {% for project in projects %}
+    <article class="pjf-card-base pjf-card {% if forloop.first %}pjf-featured{% endif %}">
+      {% if project.image %}
+      <div class="pjf-media">
+        <img src="{{ project.image.url }}" alt="Screenshot of {{ project.title }}" loading="lazy">
+        <span class="stamp"><b>{{ forloop.counter|stringformat:"02d" }}</b> · {{ project.year }}</span>
+      </div>
+      {% else %}
+      <div class="pjf-nomedia">NO VISUAL ON FILE · {{ project.year }}</div>
+      {% endif %}
+      <div class="pjf-body">
+        <h2>{{ project.title }}</h2>
+        <p class="desc">{{ project.description }}</p>
+        <div class="pjf-chips">
+          {% for skill in project.skills.all %}<span class="pjf-chip">{{ skill.name }}</span>{% endfor %}
+        </div>
+        <div class="pjf-links">
+          {% if project.repository %}
+          <a class="pjf-btn" href="{{ project.repository }}" target="_blank" rel="noopener">VIEW REPOSITORY <span class="arr">→</span></a>
+          {% endif %}
+        </div>
+      </div>
+    </article>
+    {% empty %}
+    <div class="pjf-empty" style="grid-column: 1 / -1;">NO FILES DECLASSIFIED YET — <b>FIRST PROJECT INBOUND</b></div>
+    {% endfor %}
+  </div>
+
+</section>
+{% endblock content %}

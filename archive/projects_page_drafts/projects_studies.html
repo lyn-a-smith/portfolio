@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Projects{% endblock %}
+
+{% block extra_head %}
+<style>
+/* ============================================================
+   PROJECTS — "Case Studies"  ·  full-width alternating spreads
+   Dossier theme: warm charcoal + amber · one file per project
+   ============================================================ */
+:root {
+  --pjs-card: #191613;
+  --pjs-card-2: #1d1915;
+  --pjs-line: rgba(255, 250, 240, 0.08);
+  --pjs-line-hover: rgba(226, 181, 99, 0.32);
+  --pjs-accent: #e2b563;
+  --pjs-text: #d3cdc2;
+  --pjs-bright: #f5f1e8;
+  --pjs-muted: #99917f;
+  --pjs-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --pjs-serif: "Newsreader", Georgia, "Times New Roman", serif;
+}
+
+.pjs-wrap { display: flex; flex-direction: column; gap: 14px; }
+.pjs-card {
+  background: var(--pjs-card); border: 1px solid var(--pjs-line); border-radius: 14px;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+.pjs-card:hover { border-color: var(--pjs-line-hover); background: var(--pjs-card-2); }
+
+.pjs-label {
+  display: flex; align-items: baseline; gap: 10px; margin: 0 0 14px;
+  font-family: var(--pjs-mono); font-size: 0.64rem; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--pjs-accent);
+}
+.pjs-label .no { color: var(--pjs-muted); }
+.pjs-label::after { content: ""; flex: 1; height: 1px; background: var(--pjs-line); align-self: center; }
+
+/* ---------- page header ---------- */
+.pjs-head { padding: 30px 34px; }
+.pjs-head h1 {
+  margin: 0 0 10px; font-family: var(--pjs-serif); font-weight: 500;
+  font-size: clamp(2rem, 4.2vw, 3.1rem); line-height: 1.1; color: var(--pjs-bright);
+}
+.pjs-head h1 em { font-style: italic; color: var(--pjs-accent); }
+.pjs-head p { margin: 0; max-width: 62ch; font-size: 0.94rem; line-height: 1.7; color: var(--pjs-text); }
+
+/* ---------- spreads ---------- */
+.pjs-spread { overflow: hidden; display: grid; grid-template-columns: 0.92fr 1fr; }
+.pjs-media { position: relative; min-height: 320px; background: #0f0d0b; border-right: 1px solid var(--pjs-line); }
+.pjs-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.pjs-media .stamp {
+  position: absolute; top: 14px; left: 14px; z-index: 1;
+  font-family: var(--pjs-mono); font-size: 0.62rem; font-weight: 600; letter-spacing: 0.14em;
+  color: var(--pjs-bright); background: rgba(19, 17, 16, 0.82); border: 1px solid var(--pjs-line-hover);
+  border-radius: 6px; padding: 4px 9px; backdrop-filter: blur(4px);
+}
+.pjs-media .none {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font-family: var(--pjs-mono); font-size: 0.66rem; letter-spacing: 0.16em; color: var(--pjs-muted);
+}
+.pjs-body { padding: 32px 36px; display: flex; flex-direction: column; justify-content: center; }
+.pjs-body h2 {
+  margin: 0 0 12px; font-family: var(--pjs-serif); font-weight: 500;
+  font-size: clamp(1.6rem, 2.8vw, 2.2rem); line-height: 1.15; color: var(--pjs-bright);
+}
+.pjs-body p.desc { margin: 0 0 18px; font-size: 0.94rem; line-height: 1.7; color: var(--pjs-text); max-width: 54ch; }
+.pjs-chips { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 22px; }
+.pjs-chip {
+  font-family: var(--pjs-mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--pjs-muted); border: 1px solid var(--pjs-line); border-radius: 6px; padding: 4px 9px;
+}
+.pjs-btn {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+  font-family: var(--pjs-mono); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em;
+  color: var(--pjs-accent); border: 1px solid rgba(226, 181, 99, 0.32); border-radius: 8px;
+  padding: 10px 16px; transition: background 0.2s ease, color 0.2s ease;
+}
+.pjs-btn .arr { transition: transform 0.2s ease; }
+.pjs-btn:hover { background: var(--pjs-accent); color: #221a0c; }
+.pjs-btn:hover .arr { transform: translateX(3px); }
+
+/* alternate: even spreads flip sides */
+.pjs-spread.flip .pjs-media { order: 2; border-right: 0; border-left: 1px solid var(--pjs-line); }
+.pjs-spread.flip .pjs-body { order: 1; }
+
+@media (max-width: 860px) {
+  .pjs-spread, .pjs-spread.flip { grid-template-columns: 1fr; }
+  .pjs-media, .pjs-spread.flip .pjs-media {
+    order: 1; min-height: 0; aspect-ratio: 16 / 10;
+    border-right: 0; border-left: 0; border-bottom: 1px solid var(--pjs-line);
+  }
+  .pjs-body, .pjs-spread.flip .pjs-body { order: 2; padding: 22px 24px 26px; }
+}
+
+/* ---------- empty state ---------- */
+.pjs-empty {
+  border: 1px dashed var(--pjs-line-hover); border-radius: 14px; padding: 48px 30px;
+  text-align: center; font-family: var(--pjs-mono); font-size: 0.72rem;
+  letter-spacing: 0.16em; color: var(--pjs-muted);
+}
+.pjs-empty b { color: var(--pjs-accent); font-weight: 600; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pjs-card, .pjs-btn, .pjs-btn .arr { transition: none; }
+}
+</style>
+{% endblock extra_head %}
+
+{% block content %}
+<section class="pjs-wrap" aria-label="Projects">
+
+  <div class="pjs-card pjs-head">
+    <h2 class="pjs-label"><span class="no">FILE 06</span> Case studies</h2>
+    <h1>Built, <em>declassified</em>.</h1>
+    <p>Every project gets its own file — what it is, what it's made of, and where the code lives. All built during the Full-Stack Development Immersive at SDGKU, with more on the way.</p>
+  </div>
+
+  {% for project in projects %}
+  <article class="pjs-card pjs-spread {% if forloop.counter|divisibleby:2 %}flip{% endif %}">
+    <div class="pjs-media">
+      {% if project.image %}
+      <img src="{{ project.image.url }}" alt="Screenshot of {{ project.title }}" loading="lazy">
+      {% else %}
+      <div class="none">NO VISUAL ON FILE</div>
+      {% endif %}
+      <span class="stamp">CASE {{ forloop.counter|stringformat:"02d" }} · {{ project.year }}</span>
+    </div>
+    <div class="pjs-body">
+      <p class="pjs-label" style="margin-bottom:12px"><span class="no">STATUS</span> DEPLOYED</p>
+      <h2>{{ project.title }}</h2>
+      <p class="desc">{{ project.description }}</p>
+      <div class="pjs-chips">
+        {% for skill in project.skills.all %}<span class="pjs-chip">{{ skill.name }}</span>{% endfor %}
+      </div>
+      {% if project.repository %}
+      <a class="pjs-btn" href="{{ project.repository }}" target="_blank" rel="noopener">VIEW REPOSITORY <span class="arr">→</span></a>
+      {% endif %}
+    </div>
+  </article>
+  {% empty %}
+  <div class="pjs-empty">NO CASE FILES DECLASSIFIED YET — <b>FIRST PROJECT INBOUND</b></div>
+  {% endfor %}
+
+</section>
+{% endblock content %}

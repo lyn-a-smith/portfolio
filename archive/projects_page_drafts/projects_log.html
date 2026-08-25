@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Projects{% endblock %}
+
+{% block extra_head %}
+<style>
+/* ============================================================
+   PROJECTS — "Operations Log"  ·  editorial index rows
+   Dossier theme: warm charcoal + amber · serif numerals
+   ============================================================ */
+:root {
+  --pjl-card: #191613;
+  --pjl-card-2: #1d1915;
+  --pjl-line: rgba(255, 250, 240, 0.08);
+  --pjl-line-hover: rgba(226, 181, 99, 0.32);
+  --pjl-accent: #e2b563;
+  --pjl-text: #d3cdc2;
+  --pjl-bright: #f5f1e8;
+  --pjl-muted: #99917f;
+  --pjl-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --pjl-serif: "Newsreader", Georgia, "Times New Roman", serif;
+}
+
+.pjl-wrap { display: flex; flex-direction: column; gap: 14px; }
+
+.pjl-label {
+  display: flex; align-items: baseline; gap: 10px; margin: 0 0 14px;
+  font-family: var(--pjl-mono); font-size: 0.64rem; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--pjl-accent);
+}
+.pjl-label .no { color: var(--pjl-muted); }
+.pjl-label::after { content: ""; flex: 1; height: 1px; background: var(--pjl-line); align-self: center; }
+
+/* ---------- page header ---------- */
+.pjl-head {
+  background: var(--pjl-card); border: 1px solid var(--pjl-line); border-radius: 14px;
+  padding: 30px 34px;
+}
+.pjl-head h1 {
+  margin: 0 0 10px; font-family: var(--pjl-serif); font-weight: 500;
+  font-size: clamp(2rem, 4.2vw, 3.1rem); line-height: 1.1; color: var(--pjl-bright);
+}
+.pjl-head h1 em { font-style: italic; color: var(--pjl-accent); }
+.pjl-head p { margin: 0; max-width: 62ch; font-size: 0.94rem; line-height: 1.7; color: var(--pjl-text); }
+
+/* ---------- the log ---------- */
+.pjl-list {
+  background: var(--pjl-card); border: 1px solid var(--pjl-line); border-radius: 14px;
+  overflow: hidden;
+}
+.pjl-row {
+  display: grid; grid-template-columns: 92px 128px 1fr auto; gap: 24px; align-items: center;
+  padding: 24px 28px; text-decoration: none;
+  border-top: 1px solid var(--pjl-line);
+  transition: background-color 0.2s ease;
+}
+.pjl-row:first-of-type { border-top: 0; }
+.pjl-row:hover { background: var(--pjl-card-2); }
+
+.pjl-idx { text-align: center; }
+.pjl-idx b {
+  display: block; font-family: var(--pjl-serif); font-weight: 500; font-style: italic;
+  font-size: 2.4rem; line-height: 1; color: var(--pjl-accent);
+}
+.pjl-idx span {
+  display: block; margin-top: 6px; font-family: var(--pjl-mono); font-size: 0.64rem;
+  letter-spacing: 0.14em; color: var(--pjl-muted);
+}
+
+.pjl-thumb {
+  width: 128px; aspect-ratio: 1; border-radius: 10px; overflow: hidden;
+  border: 1px solid var(--pjl-line); background: #0f0d0b;
+}
+.pjl-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pjl-thumb .none {
+  width: 100%; height: 100%; display: grid; place-items: center;
+  font-family: var(--pjl-mono); font-size: 0.56rem; letter-spacing: 0.12em;
+  color: var(--pjl-muted); text-align: center; padding: 8px;
+}
+
+.pjl-body h2 {
+  margin: 0 0 6px; font-family: var(--pjl-serif); font-weight: 500;
+  font-size: 1.55rem; line-height: 1.15; color: var(--pjl-bright);
+}
+.pjl-body p { margin: 0 0 10px; font-size: 0.88rem; line-height: 1.6; color: var(--pjl-text); max-width: 64ch; }
+.pjl-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.pjl-chip {
+  font-family: var(--pjl-mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--pjl-muted); border: 1px solid var(--pjl-line); border-radius: 6px; padding: 3px 8px;
+}
+
+.pjl-go {
+  display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; text-decoration: none;
+  font-family: var(--pjl-mono); font-size: 0.66rem; font-weight: 600; letter-spacing: 0.12em;
+  color: var(--pjl-accent); border: 1px solid rgba(226, 181, 99, 0.32); border-radius: 8px;
+  padding: 9px 14px; transition: background 0.2s ease, color 0.2s ease;
+}
+.pjl-go .arr { transition: transform 0.2s ease; }
+.pjl-go:hover { background: var(--pjl-accent); color: #221a0c; }
+.pjl-go:hover .arr { transform: translateX(3px); }
+
+/* ---------- footer note ---------- */
+.pjl-foot {
+  font-family: var(--pjl-mono); font-size: 0.64rem; letter-spacing: 0.16em;
+  color: var(--pjl-muted); text-align: center; padding: 4px 0 0;
+}
+.pjl-foot b { color: var(--pjl-accent); font-weight: 600; }
+
+/* ---------- empty state ---------- */
+.pjl-empty {
+  border: 1px dashed var(--pjl-line-hover); border-radius: 14px; padding: 48px 30px;
+  text-align: center; font-family: var(--pjl-mono); font-size: 0.72rem;
+  letter-spacing: 0.16em; color: var(--pjl-muted);
+}
+.pjl-empty b { color: var(--pjl-accent); font-weight: 600; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 900px) {
+  .pjl-row { grid-template-columns: 64px 96px 1fr; row-gap: 14px; padding: 20px; }
+  .pjl-idx b { font-size: 1.8rem; }
+  .pjl-thumb { width: 96px; }
+  .pjl-go { grid-column: 2 / -1; justify-self: start; }
+}
+@media (max-width: 560px) {
+  .pjl-row { grid-template-columns: 1fr; }
+  .pjl-idx { display: flex; align-items: baseline; gap: 10px; text-align: left; }
+  .pjl-idx span { margin-top: 0; }
+  .pjl-thumb { width: 100%; aspect-ratio: 16 / 9; }
+  .pjl-go { grid-column: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pjl-row, .pjl-go, .pjl-go .arr { transition: none; }
+}
+</style>
+{% endblock extra_head %}
+
+{% block content %}
+<section class="pjl-wrap" aria-label="Projects">
+
+  <div class="pjl-head">
+    <h2 class="pjl-label"><span class="no">FILE 06</span> Operations log</h2>
+    <h1>The build <em>log</em>.</h1>
+    <p>A running record of what I've shipped — from the Full-Stack Development Immersive at SDGKU onward. Newest entries first; every one links to its repository.</p>
+  </div>
+
+  {% if projects %}
+  <div class="pjl-list">
+    {% for project in projects %}
+    <article class="pjl-row">
+      <div class="pjl-idx">
+        <b>{{ forloop.counter|stringformat:"02d" }}</b>
+        <span>{{ project.year }}</span>
+      </div>
+      <div class="pjl-thumb">
+        {% if project.image %}
+        <img src="{{ project.image.url }}" alt="Screenshot of {{ project.title }}" loading="lazy">
+        {% else %}
+        <div class="none">NO VISUAL<br>ON FILE</div>
+        {% endif %}
+      </div>
+      <div class="pjl-body">
+        <h2>{{ project.title }}</h2>
+        <p>{{ project.description }}</p>
+        <div class="pjl-chips">
+          {% for skill in project.skills.all %}<span class="pjl-chip">{{ skill.name }}</span>{% endfor %}
+        </div>
+      </div>
+      {% if project.repository %}
+      <a class="pjl-go" href="{{ project.repository }}" target="_blank" rel="noopener">VIEW REPO <span class="arr">→</span></a>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+  <div class="pjl-foot">END OF LOG · <b>{{ projects|length|stringformat:"02d" }}</b> ENTR{{ projects|length|pluralize:"Y,IES" }} ON RECORD · MORE IN DEVELOPMENT</div>
+  {% else %}
+  <div class="pjl-empty">NO ENTRIES LOGGED YET — <b>FIRST PROJECT INBOUND</b></div>
+  {% endif %}
+
+</section>
+{% endblock content %}
