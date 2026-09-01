@@ -3,7 +3,73 @@
 
 {% block title %}Contact Me{% endblock %}
 
+{% block extra_head %}
+<link href="{% static 'css/contact.css' %}" rel="stylesheet">
+{% endblock extra_head %}
+
 {% block content %}
-    <h1>Contact</h1>
-    <p>Feel free to reach out to me!</p>
+<section class="ct-bento" aria-label="Contact Lyn Smith">
+
+  <div class="ct-card ct-main">
+    <h2 class="ct-label"><span class="no">FILE 07</span> Establish comms</h2>
+    <h1>Make <em>contact</em>.</h1>
+    <p class="lede">Whether it's a role, a project, or a good conversation about turning noise into signal; send a message and I'll get back to you.</p>
+
+    <form class="ct-form" method="POST">
+      {% csrf_token %}
+      <div class="ct-grid2">
+        <div class="ct-field">
+          <label for="{{ form.name.id_for_label }}">Name</label>
+          {{ form.name }}
+          {{ form.name.errors }}
+        </div>
+        <div class="ct-field">
+          <label for="{{ form.email.id_for_label }}">Email</label>
+          {{ form.email }}
+          {{ form.email.errors }}
+        </div>
+      </div>
+      <div class="ct-field">
+        <label for="{{ form.message.id_for_label }}">Message</label>
+        {{ form.message }}
+        {{ form.message.errors }}
+      </div>
+      <div class="ct-actions">
+        <button type="submit" class="ct-btn primary">SEND</button>
+        <button type="reset" class="ct-btn">CLEAR</button>
+      </div>
+    </form>
+
+    <!--Success message after email is sent-->
+    {% if success %}
+    <p style= 'color=red'>{{success}}</p>
+    {% endif %}
+
+    <!--Error message, if sending fails-->
+    {% if error %}
+    <p style= 'color=red'>{{error}} </p>
+    {% endif %}
+
+    <p class="ct-note">Prefer the direct line? Email <a href="mailto:lynsmith5770@gmail.com">lynsmith5770@gmail.com</a> and skip the form.</p>
+  </div>
+
+  <div class="ct-card ct-side1">
+    <h2 class="ct-label"><span class="no">CH 01–03</span> Direct channels</h2>
+    <div class="ct-links">
+      <a href="mailto:lynsmith5770@gmail.com">Email <small>lynsmith5770@gmail.com</small> <span class="arr">→</span></a>
+      <a href="https://www.linkedin.com/in/lyn-smith-b5911417a/" target="_blank" rel="noopener">LinkedIn <small>lyn-smith</small> <span class="arr">→</span></a>
+      <a href="https://github.com/lyn-a-smith" target="_blank" rel="noopener">GitHub <small>lyn-a-smith</small> <span class="arr">→</span></a>
+    </div>
+  </div>
+
+  <div class="ct-card ct-side2 ct-status">
+    <h2 class="ct-label"><span class="no">SITREP</span> Comms status</h2>
+    <span class="ct-live"><i></i>CHANNEL OPEN</span>
+    <div class="row"><span class="k">Base</span><span class="v">Yuma, Arizona (MST)</span></div>
+    <div class="row"><span class="k">Open to</span><span class="v">Software &amp; data roles · remote or on-site</span></div>
+    <div class="row"><span class="k">Response</span><span class="v">Usually within a day</span></div>
+    <p class="ct-motto">"The signal is always there. <span class="hl">Send yours</span>."</p>
+  </div>
+
+</section>
 {% endblock %}

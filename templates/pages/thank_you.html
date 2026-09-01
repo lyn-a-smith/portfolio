@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Message Received{% endblock %}
+
+{% block extra_head %}
+<link href="{% static 'css/contact.css' %}" rel="stylesheet">
+{% endblock extra_head %}
+
+{% block content %}
+<section class="ct-thanks" aria-label="Message received">
+  <div class="ct-card">
+    <h2 class="ct-label"><span class="no">FILE 07-A</span> Transmission received</h2>
+    <span class="ct-live"><i></i>MESSAGE LOGGED</span>
+    <h1>Loud and <em>clear</em>.</h1>
+    <p>Thanks for reaching out — your message made it through the noise.
+       I'll get back to you, usually within a day.</p>
+    <div class="ct-actions">
+      <a href="/" class="ct-btn primary">BACK TO ABOUT</a>
+      <a href="/projects/" class="ct-btn">VIEW PROJECTS</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
