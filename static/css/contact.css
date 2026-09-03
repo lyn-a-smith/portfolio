@@ -1,5 +1,5 @@
 /* ============================================================
-   CONTACT page — "Establish comms"
+   CONTACT page - "Establish comms"
    Dossier theme: warm charcoal + amber · serif headline · mono labels
    Loaded by templates/pages/contact.html via {% block extra_head %}
    ============================================================ */
@@ -157,3 +157,10 @@
 .ct-thanks p { margin: 0 0 24px; font-size: 0.94rem; line-height: 1.7; color: var(--ct-text); }
 .ct-thanks .ct-actions { justify-content: center; }
 .ct-thanks a.ct-btn { text-decoration: none; display: inline-block; }
+/* ---------- form status messages ---------- */
+.ct-formmsg {
+  margin: 16px 0 0; font-size: 0.82rem; line-height: 1.5;
+  border-radius: 10px; padding: 10px 14px; border: 1px solid;
+}
+.ct-formmsg.ok { color: #9ecfa5; border-color: rgba(122, 199, 138, 0.35); background: rgba(122, 199, 138, 0.08); }
+.ct-formmsg.err { color: #e08b8b; border-color: rgba(224, 139, 139, 0.35); background: rgba(224, 139, 139, 0.08); }

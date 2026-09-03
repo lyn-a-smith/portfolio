@@ -4,17 +4,17 @@
 {% block title %}Projects{% endblock %}
 
 {% block extra_head %}
-<link href="{% static 'css/projects.css' %}" rel="stylesheet">
+<link href="{% static 'css/projects.css' %}?v=2" rel="stylesheet">
 {% endblock extra_head %}
 
 {% block content %}
 <section class="pjf-wrap" aria-label="Projects">
 
   <div class="pjf-card-base pjf-head">
-    <h2 class="pjf-label"><span class="no">FILE 06</span> Project index</h2>
+    <h2 class="pjf-label"><span class="no">FILE 03</span> Projects</h2>
     <h1>Field <em>work</em>.</h1>
     <p>Things I've built, starting in the Full-Stack Development Immersive at SDGKU and growing from there. Each file links to the repository on GitHub.</p>
-    <div class="pjf-count"><b>{{ projects|length|stringformat:"02d" }}</b> FILE{{ projects|length|pluralize:"S" }} ON RECORD</div>
+    <div class="pjf-count"><b>{{ projects|length|stringformat:"02d" }}</b> PROJECT{{ projects|length|pluralize:"S" }} ON RECORD</div>
   </div>
 
   <div class="pjf-grid">
@@ -30,7 +30,7 @@
           {% if project.image %}
           <img src="{{ project.image.url }}" alt="Screenshot of the {{ project.title }} website" loading="lazy">
           {% else %}
-          <div class="none">NO VISUAL ON FILE</div>
+          <div class="none">NO PREVIEW YET</div>
           {% endif %}
         </div>
       </div>
@@ -48,7 +48,7 @@
       </div>
     </article>
     {% empty %}
-    <div class="pjf-empty" style="grid-column: 1 / -1;">NO FILES DECLASSIFIED YET — <b>FIRST PROJECT INBOUND</b></div>
+    <div class="pjf-empty" style="grid-column: 1 / -1;">NOTHING HERE YET · <b>FIRST PROJECT COMING SOON</b></div>
     {% endfor %}
   </div>
 

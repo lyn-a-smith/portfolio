@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>experience-page.html</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<style>
+/* ===== Preview-only chrome: mimics base.html navbar/footer (Bootstrap dark) ===== */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+img { max-width: 100%; height: auto; display: block; }
+a { text-decoration: none; }
+
+.site-nav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(19, 17, 16, 0.85);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 250, 240, 0.08);
+}
+.site-nav__inner {
+  max-width: min(1320px, 100% - 24px); margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.55rem 12px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+.site-nav__brand { color: #f5f1e8; font-family: "Newsreader", Georgia, serif; font-style: italic; font-weight: 500; font-size: 1.35rem; letter-spacing: 0.01em; }
+.site-nav__links { display: flex; gap: 1.6rem; }
+.site-nav__links a {
+  color: rgba(245, 241, 232, 0.55); font-size: 0.95rem; padding: 0.35rem 0;
+  position: relative; transition: color 0.2s ease;
+}
+.site-nav__links a:hover { color: rgba(245, 241, 232, 0.85); }
+.site-nav__links a.active { color: #f5f1e8; }
+.site-nav__links a.active::after {
+  content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 2px; background: #e2b563;
+}
+@media (max-width: 820px) { .site-nav__links { display: none; } }
+
+.site-main { flex: 1; width: 100%; max-width: min(1320px, 100% - 24px); margin: 0 auto; padding: 3rem 12px; }
+
+.site-footer {
+  background: #0f0d0b; border-top: 1px solid rgba(255, 250, 240, 0.08);
+  padding: 1.5rem 0 1.25rem; margin-top: auto;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+.site-footer__inner {
+  max-width: min(1320px, 100% - 24px); margin: 0 auto; padding: 0 12px;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+}
+.site-footer__name { color: #f5f1e8; font-family: "Newsreader", Georgia, serif; font-style: italic; font-weight: 500; font-size: 1.05rem; }
+.site-footer__links { display: flex; gap: 1rem; flex-wrap: wrap; }
+.site-footer a { color: #99917f; font-size: 0.92rem; transition: color 0.2s ease; }
+.site-footer a:hover { color: #f5f1e8; }
+.site-footer__social { display: flex; gap: 1rem; align-items: center; }
+.site-footer__social svg { width: 20px; height: 20px; fill: #99917f; transition: fill 0.2s ease; }
+.site-footer__social a:hover svg { fill: #f5f1e8; }
+.site-footer__copy { text-align: center; color: #776f5f; font-size: 0.85rem; margin-top: 0.9rem; width: 100%; }
+
+.preview-badge {
+  position: fixed; right: 14px; bottom: 14px; z-index: 90;
+  font: 600 11px/1 ui-monospace, "Cascadia Mono", Consolas, monospace;
+  letter-spacing: 0.08em; color: #cdd3dd; background: rgba(10, 12, 16, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 999px;
+  padding: 8px 13px; pointer-events: none;
+}
+
+/* body theme (style.css) */
+body { background-color: #131110; color: #d3cdc2; font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(900px 420px at 50% -12%, rgba(226, 181, 99, 0.05), transparent 65%); }
+::selection { background: rgba(226, 181, 99, 0.3); color: #f5f1e8; }
+
+/* ============================================================
+   EXPERIENCE page — "The full record"
+   Resume-style: work history timeline · certifications ·
+   education · numbers · skills — Dossier theme
+   Loaded by templates/pages/experience.html via {% block extra_head %}
+   ============================================================ */
+:root {
+  --xp-card: #191613;
+  --xp-card-2: #1d1915;
+  --xp-line: rgba(255, 250, 240, 0.08);
+  --xp-line-hover: rgba(226, 181, 99, 0.32);
+  --xp-accent: #e2b563;
+  --xp-accent-soft: rgba(226, 181, 99, 0.12);
+  --xp-text: #d3cdc2;
+  --xp-bright: #f5f1e8;
+  --xp-muted: #99917f;
+  --xp-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --xp-serif: "Newsreader", Georgia, "Times New Roman", serif;
+}
+
+/* ---------- grid ---------- */
+.xp-bento {
+  display: grid; gap: 14px;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas:
+    "head head head head head head head head head head head head"
+    "roles roles roles roles roles roles roles side1 side1 side1 side1 side1"
+    "roles roles roles roles roles roles roles side2 side2 side2 side2 side2"
+    "roles roles roles roles roles roles roles side3 side3 side3 side3 side3"
+    "stats stats stats stats stats stats stats stats stats stats stats stats"
+    "skills skills skills skills skills skills skills skills cta cta cta cta";
+}
+.xp-head  { grid-area: head; }
+.xp-roles { grid-area: roles; }
+.xp-side1 { grid-area: side1; }
+.xp-side2 { grid-area: side2; }
+.xp-side3 { grid-area: side3; }
+.xp-stats { grid-area: stats; }
+.xp-skills { grid-area: skills; }
+.xp-cta   { grid-area: cta; }
+
+@media (max-width: 1024px) {
+  .xp-bento {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas: "head head" "roles roles" "side1 side2" "side3 cta" "stats stats" "skills skills";
+  }
+}
+@media (max-width: 660px) {
+  .xp-bento {
+    grid-template-columns: 1fr;
+    grid-template-areas: "head" "roles" "side1" "side2" "side3" "stats" "skills" "cta";
+  }
+}
+
+/* ---------- card chassis ---------- */
+.xp-card {
+  background: var(--xp-card); border: 1px solid var(--xp-line); border-radius: 14px;
+  padding: 26px 30px;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+.xp-card:hover { border-color: var(--xp-line-hover); background: var(--xp-card-2); }
+.xp-label {
+  display: flex; align-items: baseline; gap: 10px; margin: 0 0 16px;
+  font-family: var(--xp-mono); font-size: 0.64rem; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--xp-accent);
+}
+.xp-label .no { color: var(--xp-muted); }
+.xp-label::after { content: ""; flex: 1; height: 1px; background: var(--xp-line); align-self: center; }
+
+/* ---------- header ---------- */
+.xp-head { padding: 30px 34px; }
+.xp-head h1 {
+  margin: 0 0 10px; font-family: var(--xp-serif); font-weight: 500;
+  font-size: clamp(2rem, 4.2vw, 3rem); line-height: 1.1; color: var(--xp-bright);
+}
+.xp-head h1 em { font-style: italic; color: var(--xp-accent); }
+.xp-head p { margin: 0; max-width: 66ch; font-size: 0.94rem; line-height: 1.7; color: var(--xp-text); }
+
+/* ---------- work history timeline ---------- */
+.xp-tl { list-style: none; margin: 0; padding: 0; position: relative; }
+.xp-tl::before { content: ""; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 1px; background: var(--xp-line-hover); }
+.xp-tl li { position: relative; padding: 0 0 22px 26px; }
+.xp-tl li:last-child { padding-bottom: 0; }
+.xp-tl li::before {
+  content: ""; position: absolute; left: 0; top: 6px; width: 11px; height: 11px; border-radius: 50%;
+  background: var(--xp-card); border: 2px solid var(--xp-muted);
+}
+.xp-tl li.now::before { border-color: var(--xp-accent); background: var(--xp-accent); box-shadow: 0 0 0 4px var(--xp-accent-soft); }
+.xp-tl .yr { font-family: var(--xp-mono); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; color: var(--xp-accent); }
+.xp-tl .tt { font-size: 0.96rem; font-weight: 650; color: var(--xp-bright); margin: 3px 0 1px; }
+.xp-tl .org { font-size: 0.78rem; color: var(--xp-muted); margin-bottom: 6px; }
+.xp-tl .ds { font-size: 0.85rem; line-height: 1.62; color: var(--xp-text); max-width: 60ch; }
+
+/* ---------- side cards: certifications / education ---------- */
+.xp-list ul { list-style: none; margin: 0; padding: 0; }
+.xp-list li {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
+  padding: 9px 0; border-bottom: 1px solid var(--xp-line);
+}
+.xp-list li:last-child { border-bottom: 0; padding-bottom: 0; }
+.xp-list li:first-child { padding-top: 0; }
+.xp-list .t { font-size: 0.87rem; font-weight: 600; color: var(--xp-bright); line-height: 1.4; }
+.xp-list .s { display: block; font-size: 0.74rem; font-weight: 400; color: var(--xp-muted); margin-top: 1px; }
+.xp-badge {
+  flex: 0 0 auto; font-family: var(--xp-mono); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.08em;
+  color: var(--xp-accent); border: 1px solid rgba(226, 181, 99, 0.32); border-radius: 999px; padding: 3px 9px;
+}
+
+/* ---------- stats strip ---------- */
+.xp-stats { padding: 22px 30px; }
+.xp-statrow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 28px; }
+.xp-statrow .cell { display: flex; align-items: baseline; gap: 11px; }
+.xp-statrow b {
+  font-family: var(--xp-serif); font-size: 2rem; font-weight: 500; letter-spacing: -0.01em; color: var(--xp-bright);
+}
+.xp-statrow b.ac { color: var(--xp-accent); }
+.xp-statrow span { font-size: 0.75rem; color: var(--xp-muted); line-height: 1.35; max-width: 13ch; }
+@media (max-width: 660px) { .xp-statrow { display: grid; grid-template-columns: 1fr 1fr; } }
+
+/* ---------- skills ---------- */
+.xp-skillcols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+@media (max-width: 660px) { .xp-skillcols { grid-template-columns: 1fr; gap: 18px; } }
+.xp-skillcols h3 {
+  margin: 0 0 10px; font-family: var(--xp-serif); font-style: italic; font-weight: 500;
+  font-size: 1rem; color: var(--xp-accent);
+}
+.xp-skillcols ul { list-style: none; margin: 0; padding: 0; }
+.xp-skillcols li { font-size: 0.85rem; padding: 5px 0 5px 16px; position: relative; line-height: 1.5; color: var(--xp-text); }
+.xp-skillcols li::before { content: "—"; position: absolute; left: 0; color: var(--xp-muted); }
+
+/* ---------- cta ---------- */
+.xp-cta { display: flex; flex-direction: column; justify-content: center; }
+.xp-cta h2 {
+  margin: 0 0 8px; font-family: var(--xp-serif); font-weight: 500;
+  font-size: 1.45rem; color: var(--xp-bright);
+}
+.xp-cta h2 em { font-style: italic; color: var(--xp-accent); }
+.xp-cta p { margin: 0 0 18px; font-size: 0.84rem; line-height: 1.6; color: var(--xp-muted); }
+.xp-btncol { display: flex; flex-direction: column; gap: 9px; }
+.xp-btn {
+  text-align: center; text-decoration: none;
+  font-family: var(--xp-mono); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em;
+  padding: 12px 16px; border-radius: 10px;
+  border: 1px solid var(--xp-line-hover); color: var(--xp-bright);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.xp-btn:hover { background: rgba(226, 181, 99, 0.08); transform: translateY(-1px); }
+.xp-btn.primary { background: var(--xp-accent); border-color: var(--xp-accent); color: #221a0c; }
+.xp-btn.primary:hover { background: #ecc57e; }
+
+@media (prefers-reduced-motion: reduce) {
+  .xp-card, .xp-btn { transition: none; }
+}
+
+</style></head><body>
+<nav class="site-nav"><div class="site-nav__inner"><span class="site-nav__brand">Lyn Smith</span><div class="site-nav__links"><a href="#">About Me</a><a class="active" href="#">Experience</a><a href="#">Projects</a><a href="#">Contact Me</a></div></div></nav>
+<main class="site-main">
+<section class="xp-bento" aria-label="Experience and qualifications">
+
+  <div class="xp-card xp-head">
+    <h2 class="xp-label"><span class="no">FILE 02</span> Experience</h2>
+    <h1>The full <em>record</em>.</h1>
+    <p>Sixteen years of technical work, translated out of military shorthand — the roles, the training, and the numbers behind the summary on the front page.</p>
+  </div>
+
+  <div class="xp-card xp-roles">
+    <h2 class="xp-label"><span class="no">01</span> Work history</h2>
+    <ol class="xp-tl">
+      <li class="now">
+        <span class="yr">AUG 2024 – PRESENT</span>
+        <div class="tt">Technical Operations Officer</div>
+        <div class="org">Marine Aviation Weapons &amp; Tactics Squadron One · Yuma, Arizona</div>
+        <div class="ds">Lead a specialized team that recreates realistic radio and communications environments for the Marine Corps' most advanced aviation training course. Manage the data collection and reporting behind each exercise, advise leadership on technical options, and evaluate new technology with industry partners.</div>
+      </li>
+      <li>
+        <span class="yr">JUL 2019 – JAN 2024</span>
+        <div class="tt">Senior Technical Advisor &amp; Planner</div>
+        <div class="org">III Marine Expeditionary Force · Okinawa, Japan</div>
+        <div class="ds">Principal advisor on communications, wireless-spectrum, and cyber programs for a large multinational organization. Wrote the operating plans and playbooks, led cross-team planning for major exercises, modernized approval workflows, and briefed senior executives regularly.</div>
+      </li>
+      <li>
+        <span class="yr">JUN 2018 – JUL 2019</span>
+        <div class="tt">Operations Chief</div>
+        <div class="org">III MEF Information Group · Okinawa, Japan</div>
+        <div class="ds">Built digital tools for the organization — including a virtual turnover system and a scripting environment that simulated realistic conditions for training. Produced recurring executive reports and planned a facility move that added 20+ workspaces.</div>
+      </li>
+      <li>
+        <span class="yr">SEP 2017 – JUN 2018</span>
+        <div class="tt">Data Team Lead</div>
+        <div class="org">Marine Corps Cryptologic Support Battalion · Maryland</div>
+        <div class="ds">Led a team of analysts and developers building Python-based data workflows — cleaning, normalizing, and querying large datasets to answer hard questions fast. Several of the team's tools were adopted by hundreds of analysts across the wider organization.</div>
+      </li>
+      <li>
+        <span class="yr">APR 2015 – AUG 2017</span>
+        <div class="tt">Data Analyst</div>
+        <div class="org">Marine Corps Cryptologic Support Battalion · Maryland</div>
+        <div class="ds">Produced 215+ analytical reports for U.S. and allied customers. Helped prototype tools that automated recurring analysis tasks, and trained partner teams — at home and abroad — on advanced analysis techniques.</div>
+      </li>
+      <li>
+        <span class="yr">JUL 2013 – DEC 2014</span>
+        <div class="tt">Technical Instructor</div>
+        <div class="org">3d Radio Battalion · Hawaii</div>
+        <div class="ds">Hand-picked to train deploying teams: delivered 500+ hours of hands-on instruction, certified 135+ operators on specialized systems, rebuilt the curriculum, and qualified new instructors to keep it running.</div>
+      </li>
+      <li>
+        <span class="yr">NOV 2010 – JUN 2013</span>
+        <div class="tt">Systems Operator &amp; Team Lead</div>
+        <div class="org">3d Radio Battalion · Hawaii</div>
+        <div class="ds">Operated radio-frequency collection systems and secure networks in the field. Supported sensor integration, data standardization, and disaster-recovery planning across tactical and enterprise systems.</div>
+      </li>
+    </ol>
+  </div>
+
+  <div class="xp-card xp-side1 xp-list">
+    <h2 class="xp-label"><span class="no">02</span> Certifications</h2>
+    <ul>
+      <li><span class="t">Google Data Analytics<span class="s">Specialization Certificate</span></span><span class="xp-badge">2026</span></li>
+      <li><span class="t">Lean Six Sigma Black Belt<span class="s">process improvement</span></span><span class="xp-badge">CERT</span></li>
+      <li><span class="t">Technical Project Management<span class="s">planning &amp; delivery</span></span><span class="xp-badge">CERT</span></li>
+      <li><span class="t">AI Foundations<span class="s">U.S. Department of Defense</span></span><span class="xp-badge">CERT</span></li>
+      <li><span class="t">Security Clearance<span class="s">U.S. Government · current</span></span><span class="xp-badge">ACTIVE</span></li>
+    </ul>
+  </div>
+
+  <div class="xp-card xp-side2 xp-list">
+    <h2 class="xp-label"><span class="no">03</span> Education &amp; training</h2>
+    <ul>
+      <li><span class="t">Full-Stack Development Immersive<span class="s">San Diego Global Knowledge University · Cohort 67</span></span><span class="xp-badge">2026</span></li>
+      <li><span class="t">University coursework<span class="s">American Public University System · Hawaii Pacific University</span></span></li>
+      <li><span class="t">Advanced technical training<span class="s">data analysis, networking, wireless communications &amp; cybersecurity — U.S. Department of Defense</span></span></li>
+    </ul>
+  </div>
+
+  <div class="xp-card xp-side3 xp-list">
+    <h2 class="xp-label"><span class="no">04</span> Beyond the work</h2>
+    <ul>
+      <li><span class="t">Martial arts instructor<span class="s">1st-degree black belt · still teaching</span></span></li>
+      <li><span class="t">Mentoring<span class="s">service members &amp; fellow career-changers</span></span></li>
+      <li><span class="t">Writing<span class="s">essays on data culture &amp; critical thinking</span></span></li>
+    </ul>
+  </div>
+
+  <div class="xp-card xp-stats">
+    <div class="xp-statrow">
+      <div class="cell"><b class="ac">16+</b><span>years of technical leadership</span></div>
+      <div class="cell"><b>215+</b><span>analytical reports delivered</span></div>
+      <div class="cell"><b>500+</b><span>hours of instruction taught</span></div>
+      <div class="cell"><b>135+</b><span>people trained &amp; certified</span></div>
+      <div class="cell"><b class="ac">5</b><span>service awards</span></div>
+    </div>
+  </div>
+
+  <div class="xp-card xp-skills">
+    <h2 class="xp-label"><span class="no">05</span> Skills</h2>
+    <div class="xp-skillcols">
+      <div>
+        <h3>Building</h3>
+        <ul>
+          <li>Python &amp; Django</li>
+          <li>HTML, CSS &amp; JavaScript</li>
+          <li>SQL &amp; databases</li>
+          <li>Bootstrap · Git · Linux</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Data &amp; analysis</h3>
+        <ul>
+          <li>Data cleaning &amp; shaping</li>
+          <li>Dashboards, reporting &amp; Excel</li>
+          <li>Pattern &amp; metadata analysis</li>
+          <li>Workflow automation</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Leading</h3>
+        <ul>
+          <li>Team leadership &amp; mentoring</li>
+          <li>Training &amp; curriculum design</li>
+          <li>Cross-team coordination</li>
+          <li>Executive-level briefings</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="xp-card xp-cta">
+    <h2>Sound like a <em>fit</em>?</h2>
+    <p>If this record matches what you're looking for, my inbox is open.</p>
+    <div class="xp-btncol">
+      <a class="xp-btn primary" href="/contact/">GET IN TOUCH</a>
+      <a class="xp-btn" href="/projects/">SEE MY PROJECTS</a>
+    </div>
+  </div>
+
+</section>
+</main>
+<footer class="site-footer"><div class="site-footer__inner"><span class="site-footer__name">Lyn Smith</span><div class="site-footer__links"><a href="#">About Me</a><a href="#">Experience</a><a href="#">Projects</a><a href="#">Contact Me</a></div><div class="site-footer__copy" style="margin-top:0.5rem">&copy; 2026 Lyn Smith. All rights reserved.</div></div></footer>
+</body></html>

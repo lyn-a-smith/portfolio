@@ -4,142 +4,50 @@
 {% block title %}About Me{% endblock %}
 
 {% block extra_head %}
-<link href="{% static 'css/about.css' %}" rel="stylesheet">
+<link href="{% static 'css/about.css' %}?v=2" rel="stylesheet">
 {% endblock extra_head %}
 
 {% block content %}
-<section class="dos-bento" aria-label="About Lyn Smith">
+<section class="la-bento" aria-label="About Lyn Smith">
 
-  <article class="dos-card dos-hero">
-    <h2 class="dos-label"><span class="no">FILE 01</span> Mission brief</h2>
+  <article class="dos-card la-photo dos-photo">
+    <img src="{% static 'img/headshot.png' %}" alt="Portrait of Lyn Smith" width="410" height="410">
+    <p class="nm">Lyn Smith</p>
+    <p class="ttl">Full-stack developer in training<br>16 years of technical leadership</p>
+    <span class="badge">OPEN TO WHAT'S NEXT</span>
+  </article>
+
+  <article class="dos-card la-hero dos-hero">
+    <h2 class="dos-label"><span class="no">FILE 01</span> About me</h2>
     <h1>Sixteen years of signal.<br>Now, <em>software</em>.</h1>
-    <div class="dos-cols">
-      <p>For sixteen years, my job has been <span class="hl">finding the signal in the noise</span> — pulling meaning out of the electromagnetic spectrum, turning massive, messy datasets into intelligence that leaders could actually act on. I've led SIGINT crews, planned electromagnetic warfare operations, built analytic tools with Python, and briefed everyone from junior Marines to generals.</p>
-      <p>Along the way I noticed the work I loved most: <b>building the thing</b>. The script that automated a day of analyst grind. The scripting environment that made training feel real. The workflow that turned a 12-hour slide-polishing ritual into a live dashboard.</p>
-      <p>So I'm re-tasking. I'm now a full-stack development student at San Diego Global Knowledge University, stacking Python, Django, JavaScript and SQL on top of a career spent making complex systems make sense. Same mission, new terrain: <span class="hl">build tools that cut through noise</span>.</p>
-    </div>
-    <div class="dos-sig">
-      <img src="{% static 'img/headshot.png' %}" alt="Portrait of Lyn Smith" width="410" height="410">
-      <div>
-        <div class="nm">Lyn Smith</div>
-        <div class="lo">Warrant Officer, USMC · Yuma, Arizona</div>
-      </div>
+    <p>I'm Lyn Smith. I spent the last sixteen years in the Marine Corps leading technical teams, analyzing radio signals, turning messy data into clear answers, and teaching people to do both. Along the way I noticed the part of the work I loved most: <b>building the tools</b>.</p>
+    <p>So that's what I do now. I'm studying full-stack development at San Diego Global Knowledge University, working in Python, Django, JavaScript, and SQL. This site is one of the projects. The full story, resume-style, is on the <a href="/experience/">experience page</a>.</p>
+    <div class="dos-meta">
+      <span>Yuma, Arizona</span>
+      <span>U.S. Marine Corps</span>
+      <span>SDGKU · Full-Stack Immersive, Cohort 67</span>
     </div>
   </article>
 
-  <article class="dos-card dos-term" role="img" aria-label="Terminal introduction: Lyn Smith, Chief Warrant Officer USMC, 16 years in SIGINT, EW and cyberspace operations, now studying full-stack development at SDGKU">
-    <div class="dos-term__bar"><i></i><i></i><i></i><span>lyn@mawts-1: ~/about</span></div>
-    <div class="dos-term__body">
-      <span class="ln"><span class="p">$</span> <span class="cmd">whoami</span></span>
-      <span class="ln out"><b>Lyn Smith</b> — Chief Warrant Officer, USMC</span>
-      <span class="ln"><span class="p">$</span> <span class="cmd">history | grep career</span></span>
-      <span class="ln out">16 years · SIGINT / EW / cyber ops</span>
-      <span class="ln"><span class="p">$</span> <span class="cmd">cat current_mission.txt</span></span>
-      <span class="ln out">Full-Stack Immersive @ SDGKU — <b>Cohort 67</b></span>
-      <span class="ln"><span class="p">$</span> <span class="cmd">./next_chapter.sh</span> <span class="blink">▊</span></span>
-    </div>
-  </article>
-
-  <article class="dos-card dos-work">
-    <h2 class="dos-label"><span class="no">FILE 02</span> What I work with</h2>
-    <div class="dos-workcols">
-      <div>
-        <h3>Building</h3>
-        <ul>
-          <li>Python &amp; Django</li>
-          <li>HTML, CSS &amp; JavaScript</li>
-          <li>SQL &amp; databases</li>
-          <li>Bootstrap · Git · Linux</li>
-        </ul>
-      </div>
-      <div>
-        <h3>Data &amp; analysis</h3>
-        <ul>
-          <li>Data cleaning &amp; normalization</li>
-          <li>BI dashboards &amp; visualization</li>
-          <li>Metadata &amp; pattern analysis</li>
-          <li>Workflow automation</li>
-        </ul>
-      </div>
-      <div>
-        <h3>Leading</h3>
-        <ul>
-          <li>Technical team leadership</li>
-          <li>Stakeholder translation</li>
-          <li>Training &amp; curriculum design</li>
-          <li>Executive-level briefing</li>
-        </ul>
-      </div>
-    </div>
-  </article>
-
-  <article class="dos-card dos-super">
-    <h2 class="dos-label"><span class="no">FILE 03</span> Superpowers, carried over</h2>
-    <div class="dos-rows">
-      <div class="dos-row">
-        <span class="dos-ic"><svg viewBox="0 0 16 16" fill="#e2b563" aria-hidden="true"><path d="M1 11h3v4H1v-4zm5.5-5h3v9h-3V6zM12 2h3v13h-3V2z"/></svg></span>
-        <div><div class="t">Making data talk</div><div class="s">analysis, dashboards &amp; BI — certified by Google, proven in the field</div></div>
-      </div>
-      <div class="dos-row">
-        <span class="dos-ic"><svg viewBox="0 0 16 16" fill="#ecc57e" aria-hidden="true"><path d="M9.5 1 3 9h4l-.5 6L13 7H9l.5-6z"/></svg></span>
-        <div><div class="t">Automating the boring parts</div><div class="s">Python workflows that analysts across the enterprise adopted</div></div>
-      </div>
-      <div class="dos-row">
-        <span class="dos-ic"><svg viewBox="0 0 16 16" fill="#f3d49a" aria-hidden="true"><path d="M2 2h12v9H8l-4 4v-4H2V2z"/></svg></span>
-        <div><div class="t">Translating geek to human</div><div class="s">briefing complex tech to everyone from new Marines to generals</div></div>
-      </div>
-      <div class="dos-row">
-        <span class="dos-ic"><svg viewBox="0 0 16 16" fill="#e2b563" aria-hidden="true"><circle cx="5" cy="5" r="2.5"/><circle cx="11" cy="5" r="2.5"/><path d="M1 14c0-2.5 2-4 4-4s4 1.5 4 4H1zm8 0c0-2.5 2-4 4-4 1 0 2 .4 2.7 1.1L15 14H9z"/></svg></span>
-        <div><div class="t">Building teams that ship</div><div class="s">led analysts &amp; developers through high-stakes, no-fail missions</div></div>
-      </div>
-    </div>
-  </article>
-
-  <article class="dos-card dos-receipts">
-    <h2 class="dos-label"><span class="no">FILE 04</span> Receipts</h2>
-    <div class="dos-rows">
-      <div class="dos-row"><div><div class="t">Google Data Analytics</div><div class="s">Specialization Certificate</div></div><span class="dos-badge">2026</span></div>
-      <div class="dos-row"><div><div class="t">Lean Six Sigma Black Belt</div><div class="s">process improvement</div></div><span class="dos-badge">CERT</span></div>
-      <div class="dos-row"><div><div class="t">Technical Project Management</div><div class="s">planning &amp; delivery</div></div><span class="dos-badge">CERT</span></div>
-      <div class="dos-row"><div><div class="t">AI Foundations</div><div class="s">Department of Defense</div></div><span class="dos-badge">CERT</span></div>
-      <div class="dos-row"><div><div class="t">TS//SCI Clearance</div><div class="s">U.S. Government</div></div><span class="dos-badge">ACTIVE</span></div>
-    </div>
-  </article>
-
-  <article class="dos-card dos-stats">
-    <div class="dos-statrow">
-      <div class="cell"><b class="ac">16+</b><span>years in uniform</span></div>
-      <div class="cell"><b>215+</b><span>intel reports authored</span></div>
-      <div class="cell"><b>500+</b><span>teaching hours delivered</span></div>
-      <div class="cell"><b>135+</b><span>Marines trained</span></div>
-      <div class="cell"><b class="ac">5</b><span>personal decorations</span></div>
-    </div>
-  </article>
-
-  <article class="dos-card dos-post">
-    <h2 class="dos-label"><span class="no">FILE 05</span> Current post</h2>
-    <span class="dos-live"><i></i>ON MISSION</span>
-    <p class="role-name">SIGINT / EW / Cyberspace Operations Officer</p>
-    <p class="unit">Marine Aviation Weapons &amp; Tactics Squadron One (MAWTS-1) · Yuma, AZ · Aug 2024 – present</p>
-    <p class="d">I direct a specialized team that replicates adversary electronic-warfare and signals threats — building realistic, contested training environments for Marine aviation.</p>
-    <p class="prev"><b>PREVIOUSLY</b> — III MEF · Marine Corps Cryptologic Support Battalion · 3d Radio Battalion</p>
-  </article>
-
-  <article class="dos-card dos-quote">
-    <blockquote>
-      "The signal is always there. My career has been learning to find it — <span class="hl">in the spectrum, in the data, and now in code</span>."
-      <footer>Lyn Smith · Signal &gt; Noise</footer>
+  <article class="dos-card la-quote">
+    <blockquote class="dos-q">
+      "The signal is always there. My career has been learning to find it: <span class="hl">first in radio waves, then in data, and now in code</span>."
+      <footer>Lyn Smith</footer>
     </blockquote>
   </article>
 
-  <article class="dos-card dos-cta">
-    <h2>Let's build <em>something</em>.</h2>
-    <p>I'm looking toward my next chapter in software and data — always up for talking shop, swapping war stories, or pairing on a project.</p>
-    <div class="dos-btnrow">
-      <a class="dos-btn primary" href="mailto:lynsmith5770@gmail.com">Email me</a>
-      <a class="dos-btn" href="https://www.linkedin.com/in/lyn-smith-b5911417a/" target="_blank" rel="noopener">Connect on LinkedIn</a>
-      <a class="dos-btn" href="/contact/">Contact page</a>
+  <article class="dos-card la-work">
+    <h2 class="dos-label"><span class="no">TOOLBOX</span> What I work with</h2>
+    <div class="dos-workcols">
+      <div><h3>Building</h3><ul><li>Python &amp; Django</li><li>HTML, CSS &amp; JavaScript</li><li>SQL &amp; databases</li><li>Bootstrap · Git · Linux</li></ul></div>
+      <div><h3>Data &amp; analysis</h3><ul><li>Data cleaning &amp; shaping</li><li>Dashboards &amp; reporting</li><li>Finding patterns in the noise</li><li>Automating repetitive work</li></ul></div>
+      <div><h3>Leading</h3><ul><li>Technical team leadership</li><li>Teaching &amp; mentoring</li><li>Explaining hard things simply</li><li>Briefing decision-makers</li></ul></div>
     </div>
+  </article>
+
+  <article class="dos-card la-cta">
+    <div class="txt"><h2>Let's build <em>something</em>.</h2><p>Looking toward my next chapter in software and data, and always up for talking shop.</p></div>
+    <div class="btns"><a class="dos-btn primary" href="/contact/">GET IN TOUCH</a><a class="dos-btn" href="/projects/">SEE MY PROJECTS</a></div>
   </article>
 
 </section>

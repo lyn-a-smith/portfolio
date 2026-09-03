@@ -3,7 +3,147 @@
 
 {% block title %}Experience{% endblock %}
 
+{% block extra_head %}
+<link href="{% static 'css/experience.css' %}?v=2" rel="stylesheet">
+{% endblock extra_head %}
+
 {% block content %}
-    <h1>My Experience</h1>
-    <p>This is where I will list my experience. </p>
-{% endblock %}
+<section class="xp-bento" aria-label="Experience and qualifications">
+
+  <div class="xp-card xp-head">
+    <h2 class="xp-label"><span class="no">FILE 02</span> Experience</h2>
+    <h1>The full <em>record</em>.</h1>
+    <p>Sixteen years of technical work, translated out of military shorthand: the roles, the training, and the numbers behind the summary on the front page.</p>
+  </div>
+
+  <div class="xp-card xp-roles">
+    <h2 class="xp-label"><span class="no">01</span> Work history</h2>
+    <ol class="xp-tl">
+      <li class="now">
+        <span class="yr">AUG 2024 – PRESENT</span>
+        <div class="tt">Technical Operations Officer</div>
+        <div class="org">Marine Aviation Weapons &amp; Tactics Squadron One · Yuma, Arizona</div>
+        <div class="ds">Lead a specialized team that recreates realistic radio and communications environments for the Marine Corps' most advanced aviation training course. Manage the data collection and reporting behind each exercise, advise leadership on technical options, and evaluate new technology with industry partners.</div>
+      </li>
+      <li>
+        <span class="yr">JUL 2019 – JAN 2024</span>
+        <div class="tt">Senior Technical Advisor &amp; Planner</div>
+        <div class="org">III Marine Expeditionary Force · Okinawa, Japan</div>
+        <div class="ds">Principal advisor on communications, wireless-spectrum, and cyber programs for a large multinational organization. Wrote the operating plans and playbooks, led cross-team planning for major exercises, modernized approval workflows, and briefed senior executives regularly.</div>
+      </li>
+      <li>
+        <span class="yr">JUN 2018 – JUL 2019</span>
+        <div class="tt">Operations Chief</div>
+        <div class="org">III MEF Information Group · Okinawa, Japan</div>
+        <div class="ds">Built digital tools for the organization, including a virtual turnover system and a scripting environment that simulated realistic conditions for training. Produced recurring executive reports and planned a facility move that added 20+ workspaces.</div>
+      </li>
+      <li>
+        <span class="yr">SEP 2017 – JUN 2018</span>
+        <div class="tt">Data Team Lead</div>
+        <div class="org">Marine Corps Cryptologic Support Battalion · Maryland</div>
+        <div class="ds">Led a team of analysts and developers building Python-based data workflows for cleaning, normalizing, and querying large datasets to answer hard questions fast. Several of the team's tools were adopted by hundreds of analysts across the wider organization.</div>
+      </li>
+      <li>
+        <span class="yr">APR 2015 – AUG 2017</span>
+        <div class="tt">Data Analyst</div>
+        <div class="org">Marine Corps Cryptologic Support Battalion · Maryland</div>
+        <div class="ds">Produced 215+ analytical reports for U.S. and allied customers. Helped prototype tools that automated recurring analysis tasks, and trained partner teams at home and abroad on advanced analysis techniques.</div>
+      </li>
+      <li>
+        <span class="yr">JUL 2013 – DEC 2014</span>
+        <div class="tt">Technical Instructor</div>
+        <div class="org">3d Radio Battalion · Hawaii</div>
+        <div class="ds">Hand-picked to train deploying teams: delivered 500+ hours of hands-on instruction, certified 135+ operators on specialized systems, rebuilt the curriculum, and qualified new instructors to keep it running.</div>
+      </li>
+      <li>
+        <span class="yr">NOV 2010 – JUN 2013</span>
+        <div class="tt">Systems Operator &amp; Team Lead</div>
+        <div class="org">3d Radio Battalion · Hawaii</div>
+        <div class="ds">Operated radio-frequency collection systems and secure networks in the field. Supported sensor integration, data standardization, and disaster-recovery planning across tactical and enterprise systems.</div>
+      </li>
+    </ol>
+  </div>
+
+  <div class="xp-card xp-side1 xp-list">
+    <h2 class="xp-label"><span class="no">02</span> Certifications</h2>
+    <ul>
+      <li><span class="t">Google Data Analytics<span class="s">Specialization Certificate</span></span><span class="xp-badge">2026</span></li>
+      <li><span class="t">Lean Six Sigma Black Belt<span class="s">process improvement</span></span><span class="xp-badge">CERT</span></li>
+      <li><span class="t">Technical Project Management<span class="s">planning &amp; delivery</span></span><span class="xp-badge">CERT</span></li>
+      <li><span class="t">AI Foundations<span class="s">U.S. Department of Defense</span></span><span class="xp-badge">CERT</span></li>
+      <li><span class="t">Security Clearance<span class="s">U.S. Government · current</span></span><span class="xp-badge">ACTIVE</span></li>
+    </ul>
+  </div>
+
+  <div class="xp-card xp-side2 xp-list">
+    <h2 class="xp-label"><span class="no">03</span> Education &amp; training</h2>
+    <ul>
+      <li><span class="t">Full-Stack Development Immersive<span class="s">San Diego Global Knowledge University · Cohort 67</span></span><span class="xp-badge">2026</span></li>
+      <li><span class="t">University coursework<span class="s">American Public University System · Hawaii Pacific University</span></span></li>
+      <li><span class="t">Advanced technical training<span class="s">data analysis, networking, wireless communications &amp; cybersecurity · U.S. Department of Defense</span></span></li>
+    </ul>
+  </div>
+
+  <div class="xp-card xp-side3 xp-list">
+    <h2 class="xp-label"><span class="no">04</span> Beyond the work</h2>
+    <ul>
+      <li><span class="t">Martial arts instructor<span class="s">1st-degree black belt · still teaching</span></span></li>
+      <li><span class="t">Mentoring<span class="s">service members &amp; fellow career-changers</span></span></li>
+      <li><span class="t">Writing<span class="s">essays on data culture &amp; critical thinking</span></span></li>
+    </ul>
+  </div>
+
+  <div class="xp-card xp-stats">
+    <div class="xp-statrow">
+      <div class="cell"><b class="ac">16+</b><span>years of technical leadership</span></div>
+      <div class="cell"><b>215+</b><span>analytical reports delivered</span></div>
+      <div class="cell"><b>500+</b><span>hours of instruction taught</span></div>
+      <div class="cell"><b>135+</b><span>people trained &amp; certified</span></div>
+      <div class="cell"><b class="ac">5</b><span>service awards</span></div>
+    </div>
+  </div>
+
+  <div class="xp-card xp-skills">
+    <h2 class="xp-label"><span class="no">05</span> Skills</h2>
+    <div class="xp-skillcols">
+      <div>
+        <h3>Building</h3>
+        <ul>
+          <li>Python &amp; Django</li>
+          <li>HTML, CSS &amp; JavaScript</li>
+          <li>SQL &amp; databases</li>
+          <li>Bootstrap · Git · Linux</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Data &amp; analysis</h3>
+        <ul>
+          <li>Data cleaning &amp; shaping</li>
+          <li>Dashboards, reporting &amp; Excel</li>
+          <li>Pattern &amp; metadata analysis</li>
+          <li>Workflow automation</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Leading</h3>
+        <ul>
+          <li>Team leadership &amp; mentoring</li>
+          <li>Training &amp; curriculum design</li>
+          <li>Cross-team coordination</li>
+          <li>Executive-level briefings</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="xp-card xp-cta">
+    <h2>Sound like a <em>fit</em>?</h2>
+    <p>If this record matches what you're looking for, my inbox is open.</p>
+    <div class="xp-btncol">
+      <a class="xp-btn primary" href="/contact/">GET IN TOUCH</a>
+      <a class="xp-btn" href="/projects/">SEE MY PROJECTS</a>
+    </div>
+  </div>
+
+</section>
+{% endblock content %}
